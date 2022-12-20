@@ -1,0 +1,8 @@
+.profile__info {
+  max-width: 336px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  row-gap: 16px;
+  column-gap: 18px;
+}
