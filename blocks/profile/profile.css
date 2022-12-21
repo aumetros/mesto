@@ -7,3 +7,12 @@
   flex-direction: row;
   align-items: center;  
 }
+
+@media screen and (max-width: 650px) {
+  .profile {
+    max-width: 282px;
+    flex-direction: column;
+    padding-top: 42px;
+    padding-bottom: 36px;
+  }
+}
