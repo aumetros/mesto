@@ -11,6 +11,6 @@
 * Базовый JavaScript и работа с браузером через элементы DOM.
 * Продвинутая работа с ветками в Git.
 
-**Ссылка на проект - GitHub Pages**: (https://aumetros.github.io/russian-travel/)
+**Ссылка на проект - GitHub Pages**: (https://aumetros.github.io/mesto/)
 
 *декабрь 2022г.* 
