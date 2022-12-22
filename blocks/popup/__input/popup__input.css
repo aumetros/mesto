@@ -8,6 +8,14 @@
   margin-bottom: 8px;
 }
 
+.popup__input:focus {
+  outline-width: 0;
+}
+
+.popup__input::placeholder {
+  color: #000000;
+}
+
 @media screen and (max-width: 540px) {
   .popup__input {
     width: 238px;

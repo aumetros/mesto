@@ -1,5 +1,7 @@
 .header__line {
-  border-bottom: 1px solid #545454;
-  width: 100%;
+  max-width: 880px;
+  height: 1px;
+  border: 0;
+  background-color: #545454;
   opacity: 0.7;
 }
