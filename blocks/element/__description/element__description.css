@@ -1,6 +1,6 @@
 .element__description {
   max-width: 282px;
-  padding: 25px 20px 31px;
+  padding: 23px 20px 27px; /** отступы изменены от макета по PixelPerfect **/
   border: 0;
   display: flex;
   flex-direction: row;

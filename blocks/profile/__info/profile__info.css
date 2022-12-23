@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
-  row-gap: 16px;
+  row-gap: 10px; /** изменено от макета по PixelPerfect **/
   column-gap: 18px;
 }
 
@@ -12,5 +12,6 @@
     max-width: 282px;
     row-gap: 14px;
     column-gap: 10px;
+    row-gap: 6px; /** изменено от макета по PixelPerfect **/
   }
 }

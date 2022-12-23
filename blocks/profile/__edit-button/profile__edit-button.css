@@ -6,6 +6,7 @@
   background-image: url(../../../images/edit-image.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 10px 10px;
   align-self: center;
   cursor: pointer;
 }
@@ -16,7 +17,9 @@
 
 @media screen and (max-width: 650px) {
   .profile__edit-button {
+    transform: translateX(15px);
     min-width: 18px;
     min-height: 18px;
+    background-size: 7.5px 7.5px;
   }
 }

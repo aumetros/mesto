@@ -1,11 +1,13 @@
 .profile__add-button {
   min-width: 150px;
   min-height: 50px;
-  border: 1px solid #FFFFFF;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
   background-color: #000000;
   background-image: url(../../../images/add-image.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 22px 22px;
   margin-left: auto;
   cursor: pointer;
 }
@@ -18,5 +20,6 @@
   .profile__add-button {
     min-width: 282px;
     min-height: 50px;
+    background-size: 16px 16px;
   }
 }

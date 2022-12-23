@@ -2,8 +2,8 @@
   cursor: pointer;
   border: 0;
   background-color: #FFFFFF;
-  width: 22px;
-  height: 19px;
+  min-width: 22px;
+  min-height: 19px;
   background-image: url(../../../images/like-image.svg);
   background-position: center;
   background-repeat: no-repeat;
