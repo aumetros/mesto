@@ -10,7 +10,6 @@
 @media screen and (max-width: 650px) {
   .profile__info {
     max-width: 282px;
-    row-gap: 14px;
     column-gap: 10px;
     row-gap: 6px; /** изменено от макета по PixelPerfect **/
   }
