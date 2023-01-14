@@ -91,4 +91,20 @@ initialCards.forEach(function(card) {
 
 
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы добавления карточки
+const addButton = profile.querySelector('.profile__add-button');
 
+const popupNewCard = document.querySelector('.popup-newcard');
+const closePopupNewCardButton = popupNewCard.querySelector('.popup-newcard__close-button');
+
+//Функции открытия и закрытия попапа добавления карточки
+function openPopupNewCard () {
+  popupNewCard.classList.add('popup_opened');
+}
+
+function closePopupNewCard () {
+  popupNewCard.classList.remove('popup_opened');
+}
+
+//Вешаем события на кнопки открытия и закрытия формы добавления карты
+addButton.addEventListener('click', openPopupNewCard);
+closePopupNewCardButton.addEventListener('click', closePopupNewCard);
