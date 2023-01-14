@@ -1,4 +1,4 @@
-.popup__line {
+.popup-profile__line {
   width: 358px;
   height: 1px;
   background-color: #000000;
@@ -7,12 +7,12 @@
   margin-bottom: 30px;
 }
 
-.popup__line:last-of-type {
+.popup-profile__line:last-of-type {
   margin-bottom: 0;
 }
 
 @media screen and (max-width: 540px) {
-  .popup__line {
+  .popup-profile__line {
     width: 238px;
   }
 }

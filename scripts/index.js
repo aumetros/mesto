@@ -1,41 +1,41 @@
-// Выбираем элементы DOM - Кнопки открытия и закрытия редактирования профайла
+// Выбираем элементы DOM - Кнопки открытия и закрытия формы редактирования профайла
 const profile = document.querySelector('.profile');
 const editButton = profile.querySelector('.profile__edit-button');
 
-const popup = document.querySelector('.popup');
-const closeButton = popup.querySelector('.popup__close-button');
+const popupProfile = document.querySelector('.popup-profile');
+const closeButton = popupProfile.querySelector('.popup-profile__close-button');
 
 let nameProfile = profile.querySelector('.profile__name');
 let aboutProfile = profile.querySelector('.profile__about');
 
-let nameInput = popup.querySelector('.popup__input_type_name');
-let aboutInput = popup.querySelector('.popup__input_type_about');
+let nameInput = popupProfile.querySelector('.popup-profile__input_type_name');
+let aboutInput = popupProfile.querySelector('.popup-profile__input_type_about');
 
 // Функция открытия попапа
-function openPopup() {
-  popup.classList.add('popup_opened');
+function openPopupProfile() {
+  popupProfile.classList.add('popup_opened');
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
 }
 
 // Функция закрытия попапа
-function closePopup() {
-  popup.classList.remove('popup_opened');
+function closePopupProfile() {
+  popupProfile.classList.remove('popup_opened');
 }
 
 //Вешаем события на кнопки открытия и закрытия попапа редактирования профайла
-editButton.addEventListener('click', openPopup);
-closeButton.addEventListener('click', closePopup);
+editButton.addEventListener('click', openPopupProfile);
+closeButton.addEventListener('click', closePopupProfile);
 
 // Выбираем элемент DOM - форма отправки изменения данных профайла
-let formProfileEdit = popup.querySelector('.popup__form-profile-edit');
+let formProfileEdit = popupProfile.querySelector('.popup-profile__form-profile-edit');
 
 // Функция отправки изменений данных профайла
 function handleFormSubmit(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   aboutProfile.textContent = aboutInput.value;
-  closePopup();
+  closePopupProfile();
 }
 
 //Вешаем событие на кнопку отправки новых данных профайла
@@ -90,4 +90,5 @@ initialCards.forEach(function(card) {
 });
 
 
+// Выбираем элементы DOM - Кнопки открытия и закрытия формы добавления карточки
 

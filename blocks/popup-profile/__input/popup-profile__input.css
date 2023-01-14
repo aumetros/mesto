@@ -1,4 +1,4 @@
-.popup__input {
+.popup-profile__input {
   width: 358px;
   border: 0;
   padding: 0;
@@ -8,12 +8,12 @@
   margin-bottom: 8px;
 }
 
-.popup__input:focus {
+.popup-profile__input:focus {
   outline-width: 0;
 }
 
 @media screen and (max-width: 540px) {
-  .popup__input {
+  .popup-profile__input {
     width: 238px;
   }
 }
