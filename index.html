@@ -43,77 +43,7 @@
 
       <ul class="elements">
 
-        <!--
-
-        <li class="element">
-
-          <img src="./images/tver-image.jpg" class="element__foto" alt="Фотография Старого мостав в Твери">
-
-          <div class="element__description">
-            <p class="element__title">Тверь</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        <li class="element">
-
-          <img src="./images/kazan-image.jpg" class="element__foto" alt="Фотография мечети Кул Шариф в Казани">
-
-          <div class="element__description">
-            <p class="element__title">Казань</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        <li class="element">
-
-          <img src="./images/sochi-image.jpg" class="element__foto" alt="Фотография вечернего морского порта в Сочи">
-
-          <div class="element__description">
-            <p class="element__title">Сочи</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        <li class="element">
-
-          <img src="./images/moscow-image.jpg" class="element__foto"
-            alt="Фотография Собора Василия Блаженного в Москве">
-
-          <div class="element__description">
-            <p class="element__title">Москва</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        <li class="element">
-
-          <img src="./images/seliger-image.jpg" class="element__foto" alt="Фотография озера Селигер в Тверской области">
-
-          <div class="element__description">
-            <p class="element__title">Озеро Селигер</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        <li class="element">
-
-          <img src="./images/stpetersburg-image.jpg" class="element__foto"
-            alt="Фотография Исаакиевского собора в Санкт-Петербурге">
-
-          <div class="element__description">
-            <p class="element__title">Санкт-Петербург</p>
-            <button class="element__like-button" type="button"></button>
-          </div>
-
-        </li>
-
-        -->
+        <!--Контейнер для карточек-->
 
       </ul>
 
@@ -126,35 +56,8 @@
     </footer>
 
     <!--Секция поп-апов-->
-<!--
-    <section class="popup">
 
-      <div class="popup__container">
-
-        <form class="popup__form-profile-edit" name="profile-edit">
-
-          <h2 class="popup__title">Редактировать профиль</h2>
-
-
-          <input type="text" class="popup__input popup__input_type_name" name="name" value="Жак-Ив Кусто"
-            placeholder="Введите своё имя">
-          <div class="popup__line"></div>
-
-          <input type="text" class="popup__input popup__input_type_about" name="about" value="Исследователь океана"
-            placeholder="Напишите о себе">
-          <div class="popup__line"></div>
-
-
-          <button class="popup__submit-button" type="submit">Сохранить</button>          
-
-        </form>
-
-        <button class="popup__close-button" type="button"></button>
-
-      </div>
-
-    </section> -->
-
+    <!--Поп-ап редактирования профайла-->
     <section class="popup-profile popup">
 
       <div class="popup-profile__container">
@@ -164,12 +67,10 @@
           <h2 class="popup-profile__title">Редактировать профиль</h2>
 
 
-          <input type="text" class="popup-profile__input popup-profile__input_type_name" name="name" value="Жак-Ив Кусто"
-            placeholder="Введите своё имя">
-          <div class="popup__line"></div>
+          <input type="text" class="popup-profile__input popup-profile__input_type_name" name="name" placeholder="Введите своё имя">
+          <div class="popup-profile__line"></div>
 
-          <input type="text" class="popup-profile__input popup-profile__input_type_about" name="about" value="Исследователь океана"
-            placeholder="Напишите о себе">
+          <input type="text" class="popup-profile__input popup-profile__input_type_about" name="about" placeholder="Напишите о себе">
           <div class="popup-profile__line"></div>
 
 
@@ -178,6 +79,33 @@
         </form>
 
         <button class="popup-profile__close-button" type="button"></button>
+
+      </div>
+
+    </section>
+
+    <!--Поп-ап добавления новой карточки-->
+    <section class="popup-newcard popup">
+
+      <div class="popup-newcard__container">
+
+        <form class="popup-newcard__form-card-add" name="card-add">
+
+          <h2 class="popup-newcard__title">Новое место</h2>
+
+
+          <input type="text" class="popup-newcard__input popup__input_type_name" name="name" placeholder="Название">
+          <div class="popup-newcard__line"></div>
+
+          <input type="text" class="popup-newcard__input popup__input_type_about" name="link" placeholder="Ссылка на картинку">
+          <div class="popup-newcard__line"></div>
+
+
+          <button class="popup-newcard__submit-button" type="submit">Создать</button>          
+
+        </form>
+
+        <button class="popup-newcard__close-button" type="button"></button>
 
       </div>
 

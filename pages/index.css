@@ -37,3 +37,10 @@
 @import url(../blocks/popup-profile/__line/popup-profile__line.css);
 @import url(../blocks/popup-profile/__submit-button/popup-profile__submit-button.css);
 @import url(../blocks/popup-profile/__title/popup-profile__title.css);
+
+@import url(../blocks/popup-newcard/__container/popup-newcard__container.css);
+@import url(../blocks/popup-newcard/__title/popup-newcard__title.css);
+@import url(../blocks/popup-newcard/__input/popup-newcard__input.css);
+@import url(../blocks/popup-newcard/__line/popup-newcard__line.css);
+@import url(../blocks/popup-newcard/__submit-button/popup-newcard__submit-button.css);
+@import url(../blocks/popup-newcard/__close-button/popup-newcard__close-button.css);
