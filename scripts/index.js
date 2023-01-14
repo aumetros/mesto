@@ -108,3 +108,28 @@ function closePopupNewCard () {
 //Вешаем события на кнопки открытия и закрытия формы добавления карты
 addButton.addEventListener('click', openPopupNewCard);
 closePopupNewCardButton.addEventListener('click', closePopupNewCard);
+
+// Выбираем элемент DOM - форма добавления новых карточек
+const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
+
+//Функция добавления новый карточек
+function addNewCard(evt) {
+  evt.preventDefault();
+
+  const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
+  const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
+
+  //Клонируем код карточки
+  const element = elementTemplate.querySelector('.element').cloneNode(true);
+
+  //Наполняем клонированную карточку
+  element.querySelector('.element__title').textContent = nameNewCardInput.value;
+  element.querySelector('.element__foto').src = linkNewCardInput.value;
+
+  elementsList.prepend(element);
+
+  closePopupNewCard();
+}
+
+//Вешаем событие форму отправки новой карточки
+formNewCardAdd.addEventListener('submit', addNewCard);
