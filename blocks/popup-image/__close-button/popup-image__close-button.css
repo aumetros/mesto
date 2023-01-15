@@ -1,4 +1,4 @@
-.popup-profile__close-button {
+.popup-image__close-button {
   min-width: 32px;
   min-height: 32px;
   background-color: rgba(0, 0, 0, 0);
@@ -14,12 +14,13 @@
   cursor: pointer;
 }
 
-.popup-profile__close-button:hover {
+
+.popup-image__close-button:hover {
   opacity: 0.6;
 }
 
 @media screen and (max-width: 540px) {
-  .popup-profile__close-button {
+  .popup-image__close-button {
     min-width: 20px;
     min-height: 20px;
     top: -35px;

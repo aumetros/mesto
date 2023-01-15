@@ -41,9 +41,18 @@ function handleFormSubmit(evt) {
 //Вешаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleFormSubmit);
 
-//Выбираем элементы DOM контейнер карточек и template*
-const elementTemplate = document.querySelector('#card').content;
+//Выбираем элементы DOM контейнеры для карточек и фотографии
 const elementsList = document.querySelector('.elements');
+const imagePopup = document.querySelector('.popup-image');
+
+//Функция создания новой фотографии для просмотра
+function createNewImageViewer(name, link) {
+  const imageTemplate = document.querySelector('#image').content
+  const image = imageTemplate.querySelector('.popup-image__container').cloneNode(true);
+  image.querySelector('.popup-image__item').src = link;
+  image.querySelector('.popup-image__subtitle').textContent = name;
+  return image;
+}
 
 //Функция создания новой карточки
 function createNewCard(name, link) {
@@ -54,6 +63,12 @@ function createNewCard(name, link) {
   //Наполняем клонированную карточку
   element.querySelector('.element__title').textContent = name;
   element.querySelector('.element__foto').src = link;
+  //Вешаем на фотографию событие открытия попапа и просмотра фотографии
+  element.querySelector('.element__foto').addEventListener('click', function() {
+    imagePopup.classList.add('popup_opened');
+    const newImage = createNewImageViewer(name, link);
+    imagePopup.prepend(newImage);
+  });
   //Вешаем событие лайка на создаваемую карточку
   element.querySelector('.element__like-button').addEventListener('click', function(evt) {
     evt.target.classList.toggle('element__like-button_checked');
@@ -111,3 +126,4 @@ formNewCardAdd.addEventListener('submit', function(evt) {
   addNewCard();
   closePopupNewCard();
 });
+
