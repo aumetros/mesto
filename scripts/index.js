@@ -41,65 +41,46 @@ function handleFormSubmit(evt) {
 //Вешаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleFormSubmit);
 
-//Массив карточек "из коробки" при загрузке страницы
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
-//Выбираем элементы DOM список карточек и template
+//Выбираем элементы DOM контейнер карточек и template*
 const elementTemplate = document.querySelector('#card').content;
 const elementsList = document.querySelector('.elements');
 
 
-//Перебираем массив карточек и создаем из них элементы списка карточек
-initialCards.forEach(function(card) {
-
+//Функция создания новой карточки
+function createNewCard(name, link) {
+  //Находим заготовку карточки
+  const elementTemplate = document.querySelector('#card').content;
   //Клонируем код карточки
   const element = elementTemplate.querySelector('.element').cloneNode(true);
-
   //Наполняем клонированную карточку
-  element.querySelector('.element__foto').src = card.link;
-  element.querySelector('.element__title').textContent = card.name;
-
+  element.querySelector('.element__title').textContent = name;
+  element.querySelector('.element__foto').src = link;
   //Вешаем событие лайка на создаваемую карточку
   element.querySelector('.element__like-button').addEventListener('click', function(evt) {
     evt.target.classList.toggle('element__like-button_checked');
   });
-
   //Вешаем событие удаления карточки
   element.querySelector('.element__trash-button').addEventListener('click', function(evt) {
     const currentCard = evt.target.closest('.element');
     currentCard.remove();
   });
+  //Возвращаем новую готовую карточку
+  return element;
+}
 
-  //Добавляем на страницу
-  elementsList.append(element);
+//Функция добавления новой карточки в контейнер
+function addNewCard() {
+  //Сохраняем возвращаемую функцией карточку в переменную
+  const newElement = createNewCard(nameNewCardInput.value, linkNewCardInput.value);
+  elementsList.prepend(newElement);  
+}
 
+//Перебираем массив карточек и создаем из них элементы списка карточек
+initialCards.forEach(function(card) {
+  const initialCard = createNewCard(card.name, card.link);
+  elementsList.append(initialCard);
 });
-
 
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы добавления карточки
 const addButton = profile.querySelector('.profile__add-button');
@@ -113,7 +94,7 @@ const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_typ
 
 //Функции открытия и закрытия попапа добавления карточки
 function openPopupNewCard () {
-  nameNewCardInput.value = ''; //Для избежания заполненных полей при повторном вызове
+  nameNewCardInput.value = ''; //Для избежания заполненных полей при повторном открытии попапа
   linkNewCardInput.value = '';
   popupNewCard.classList.add('popup_opened');
 }
@@ -126,34 +107,9 @@ function closePopupNewCard () {
 addButton.addEventListener('click', openPopupNewCard);
 closePopupNewCardButton.addEventListener('click', closePopupNewCard);
 
-//Функция добавления новый карточек
-function addNewCard(evt) {
-  evt.preventDefault();  
-
-  //Клонируем код карточки
-  const element = elementTemplate.querySelector('.element').cloneNode(true);
-
-  //Наполняем клонированную карточку
-  element.querySelector('.element__title').textContent = nameNewCardInput.value;
-  element.querySelector('.element__foto').src = linkNewCardInput.value;
-
-  //Вешаем событие лайка на создаваемую карточку
-  element.querySelector('.element__like-button').addEventListener('click', function(evt) {
-    evt.target.classList.toggle('element__like-button_checked');
-  });
-
-  //Вешаем событие удаления карточки
-  element.querySelector('.element__trash-button').addEventListener('click', function(evt) {
-    const currentCard = evt.target.closest('.element');
-    currentCard.remove();
-  });
-
-  elementsList.prepend(element);
-
+//Вешаем событие на форму отправки новой карточки и закрываем попап
+formNewCardAdd.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  addNewCard();
   closePopupNewCard();
-}
-
-//Вешаем событие на форму отправки новой карточки
-formNewCardAdd.addEventListener('submit', addNewCard);
-
-
+});
