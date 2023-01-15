@@ -143,6 +143,3 @@ function addNewCard(evt) {
 
 //Вешаем событие на форму отправки новой карточки
 formNewCardAdd.addEventListener('submit', addNewCard);
-
-//Создаем функцию для лайка на карточке
-

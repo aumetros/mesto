@@ -1,0 +1,18 @@
+.element__trash-button {
+  cursor: pointer;
+  min-width: 18px;
+  min-height: 19px;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url(../../../images/trash-image.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.element__trash-button:hover {
+  opacity: 0.6;
+}
