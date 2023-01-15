@@ -41,11 +41,9 @@ function handleFormSubmit(evt) {
 //Вешаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleFormSubmit);
 
-
 //Выбираем элементы DOM контейнер карточек и template*
 const elementTemplate = document.querySelector('#card').content;
 const elementsList = document.querySelector('.elements');
-
 
 //Функция создания новой карточки
 function createNewCard(name, link) {

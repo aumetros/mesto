@@ -46,3 +46,7 @@
 @import url(../blocks/popup-newcard/__line/popup-newcard__line.css);
 @import url(../blocks/popup-newcard/__submit-button/popup-newcard__submit-button.css);
 @import url(../blocks/popup-newcard/__close-button/popup-newcard__close-button.css);
+
+@import url(../blocks/popup-image/__item/popup-image__item.css);
+@import url(../blocks/popup-image/__container/popup-image__container.css);
+@import url(../blocks/popup-image/__subtitle/popup-image__subtitle.css);
