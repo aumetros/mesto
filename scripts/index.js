@@ -89,6 +89,12 @@ initialCards.forEach(function(card) {
     evt.target.classList.toggle('element__like-button_checked');
   });
 
+  //Вешаем событие удаления карточки
+  element.querySelector('.element__trash-button').addEventListener('click', function(evt) {
+    const currentCard = evt.target.closest('.element');
+    currentCard.remove();
+  });
+
   //Добавляем на страницу
   elementsList.append(element);
 
@@ -136,6 +142,12 @@ function addNewCard(evt) {
     evt.target.classList.toggle('element__like-button_checked');
   });
 
+  //Вешаем событие удаления карточки
+  element.querySelector('.element__trash-button').addEventListener('click', function(evt) {
+    const currentCard = evt.target.closest('.element');
+    currentCard.remove();
+  });
+
   elementsList.prepend(element);
 
   closePopupNewCard();
@@ -143,3 +155,5 @@ function addNewCard(evt) {
 
 //Вешаем событие на форму отправки новой карточки
 formNewCardAdd.addEventListener('submit', addNewCard);
+
+
