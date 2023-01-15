@@ -84,6 +84,11 @@ initialCards.forEach(function(card) {
   element.querySelector('.element__foto').src = card.link;
   element.querySelector('.element__title').textContent = card.name;
 
+  //Вешаем событие лайка на создаваемую карточку
+  element.querySelector('.element__like-button').addEventListener('click', function(evt) {
+    evt.target.classList.toggle('element__like-button_checked');
+  });
+
   //Добавляем на страницу
   elementsList.append(element);
 
@@ -96,8 +101,14 @@ const addButton = profile.querySelector('.profile__add-button');
 const popupNewCard = document.querySelector('.popup-newcard');
 const closePopupNewCardButton = popupNewCard.querySelector('.popup-newcard__close-button');
 
+const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
+const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
+const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
+
 //Функции открытия и закрытия попапа добавления карточки
 function openPopupNewCard () {
+  nameNewCardInput.value = ''; //Для избежания заполненных полей при повторном вызове
+  linkNewCardInput.value = '';
   popupNewCard.classList.add('popup_opened');
 }
 
@@ -109,15 +120,9 @@ function closePopupNewCard () {
 addButton.addEventListener('click', openPopupNewCard);
 closePopupNewCardButton.addEventListener('click', closePopupNewCard);
 
-// Выбираем элемент DOM - форма добавления новых карточек
-const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
-
 //Функция добавления новый карточек
 function addNewCard(evt) {
-  evt.preventDefault();
-
-  const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
-  const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
+  evt.preventDefault();  
 
   //Клонируем код карточки
   const element = elementTemplate.querySelector('.element').cloneNode(true);
@@ -126,10 +131,18 @@ function addNewCard(evt) {
   element.querySelector('.element__title').textContent = nameNewCardInput.value;
   element.querySelector('.element__foto').src = linkNewCardInput.value;
 
+  //Вешаем событие лайка на создаваемую карточку
+  element.querySelector('.element__like-button').addEventListener('click', function(evt) {
+    evt.target.classList.toggle('element__like-button_checked');
+  });
+
   elementsList.prepend(element);
 
   closePopupNewCard();
 }
 
-//Вешаем событие форму отправки новой карточки
+//Вешаем событие на форму отправки новой карточки
 formNewCardAdd.addEventListener('submit', addNewCard);
+
+//Создаем функцию для лайка на карточке
+
