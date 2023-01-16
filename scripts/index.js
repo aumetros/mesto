@@ -14,8 +14,8 @@ let aboutInput = popupProfile.querySelector('.popup-profile__input_type_about');
 // Функция открытия попапа
 function openPopupProfile() {
   popupProfile.classList.add('popup_opened');
-  nameInput.value = nameProfile.innerText;
-  aboutInput.value = aboutProfile.innerText;
+  nameInput.value = ''; //Очищаем поля перед открытием
+  aboutInput.value = '';
 }
 
 // Функция закрытия попапа
@@ -53,17 +53,13 @@ imagePopup.classList.remove('popup_opened');
 
 //Функция создания новой фотографии для просмотра
 function createNewImageViewer(name, link) {
-  const imageTemplate = document.querySelector('#image').content
-  const image = imageTemplate.querySelector('.popup-image__container').cloneNode(true);
-  image.querySelector('.popup-image__item').src = link;
-  image.querySelector('.popup-image__subtitle').textContent = name;
+  //Подставляем в заготовку новые значения фото и описания
+  const currentImage = imagePopup.querySelector('.popup-image__item');
+  const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle')
+  currentImage.src = link;
+  currentImageSubtitle.textContent = name;
   //Вешаем на кнопку закрытия попапа событие
-  image.querySelector('.popup-image__close-button').addEventListener('click', function(evt) {
-  closeImageViewer();
-  const currentImage = evt.target.closest('.popup-image__container');
-  currentImage.remove();
-  });
-  return image;
+  imagePopup.querySelector('.popup-image__close-button').addEventListener('click', closeImageViewer);
 }
 
 //Функция создания новой карточки
@@ -77,9 +73,8 @@ function createNewCard(name, link) {
   element.querySelector('.element__foto').src = link;
   //Вешаем на фотографию событие открытия попапа и просмотра фотографии
   element.querySelector('.element__foto').addEventListener('click', function() {
-    imagePopup.classList.add('popup_opened');
-    const newImage = createNewImageViewer(name, link);
-    imagePopup.prepend(newImage);
+    createNewImageViewer(name, link);
+    imagePopup.classList.add('popup_opened');    
   });
   //Вешаем событие лайка на создаваемую карточку
   element.querySelector('.element__like-button').addEventListener('click', function(evt) {
@@ -124,6 +119,7 @@ function openPopupNewCard () {
   popupNewCard.classList.add('popup_opened');
 }
 
+//Функция закрытия попапа добавления новой карточки
 function closePopupNewCard () {
   popupNewCard.classList.remove('popup_opened');
 }
@@ -138,4 +134,3 @@ formNewCardAdd.addEventListener('submit', function(evt) {
   addNewCard();
   closePopupNewCard();
 });
-
