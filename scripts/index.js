@@ -41,9 +41,15 @@ function handleFormSubmit(evt) {
 //Вешаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleFormSubmit);
 
+
 //Выбираем элементы DOM контейнеры для карточек и фотографии
 const elementsList = document.querySelector('.elements');
 const imagePopup = document.querySelector('.popup-image');
+
+//Функция закрытия попапа просмотра фотографии
+function closeImageViewer() {
+imagePopup.classList.remove('popup_opened');
+}
 
 //Функция создания новой фотографии для просмотра
 function createNewImageViewer(name, link) {
@@ -51,6 +57,12 @@ function createNewImageViewer(name, link) {
   const image = imageTemplate.querySelector('.popup-image__container').cloneNode(true);
   image.querySelector('.popup-image__item').src = link;
   image.querySelector('.popup-image__subtitle').textContent = name;
+  //Вешаем на кнопку закрытия попапа событие
+  image.querySelector('.popup-image__close-button').addEventListener('click', function(evt) {
+  closeImageViewer();
+  const currentImage = evt.target.closest('.popup-image__container');
+  currentImage.remove();
+  });
   return image;
 }
 
