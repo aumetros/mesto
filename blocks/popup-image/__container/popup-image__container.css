@@ -1,6 +1,6 @@
 .popup-image__container {
   display: flex;
-  position: relative;  
+  position: relative;
   flex-direction: column;
   transform: translateY(25px); /*Отцентровали попап по центру фотографии, учитываю высоту подписи*/
 }
