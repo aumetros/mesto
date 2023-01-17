@@ -33,9 +33,14 @@ let formProfileEdit = popupProfile.querySelector('.popup-profile__form-profile-e
 // Функция отправки изменений данных профайла
 function handleFormSubmit(evt) {
   evt.preventDefault();
+  //Проверяем заполнены ли все поля формы
+  if (nameInput.value === '' || aboutInput.value === '') {
+    alert('Пожалуйста, заполните все поля!');
+  } else {
   nameProfile.textContent = nameInput.value;
   aboutProfile.textContent = aboutInput.value;
   closePopupProfile();
+  }
 }
 
 //Вешаем событие на кнопку отправки новых данных профайла
@@ -57,6 +62,7 @@ function createNewImageViewer(name, link) {
   const currentImage = imagePopup.querySelector('.popup-image__item');
   const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle')
   currentImage.src = link;
+  currentImage.alt = name;
   currentImageSubtitle.textContent = name;
   //Вешаем на кнопку закрытия попапа событие
   imagePopup.querySelector('.popup-image__close-button').addEventListener('click', closeImageViewer);
@@ -71,6 +77,7 @@ function createNewCard(name, link) {
   //Наполняем клонированную карточку
   element.querySelector('.element__title').textContent = name;
   element.querySelector('.element__foto').src = link;
+  element.querySelector('.element__foto').alt = name;
   //Вешаем на фотографию событие открытия попапа и просмотра фотографии
   element.querySelector('.element__foto').addEventListener('click', function() {
     createNewImageViewer(name, link);
@@ -131,6 +138,10 @@ closePopupNewCardButton.addEventListener('click', closePopupNewCard);
 //Вешаем событие на форму отправки новой карточки и закрываем попап
 formNewCardAdd.addEventListener('submit', function(evt) {
   evt.preventDefault();
+  if (nameNewCardInput.value === '' || linkNewCardInput.value === '') {
+    alert('Пожалуйста, заполните все поля!')    
+  } else {
   addNewCard();
   closePopupNewCard();
+  }
 });
