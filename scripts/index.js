@@ -65,6 +65,12 @@ function handleImageClick(name, link) {
 //Находим заготовку карточки
 const cardTemplate = document.querySelector('#card').content.querySelector('.element');
 
+//Функция удаления карточки
+function deleteCurrentCard (evt) {
+  const currentCard = evt.target.closest('.element');
+  currentCard.remove();
+}
+
 //Функция создания новой карточки
 function createNewCard(name, link) {  
   //Клонируем код карточки
@@ -80,13 +86,19 @@ function createNewCard(name, link) {
     evt.target.classList.toggle('element__like-button_checked');
   });
   //Вешаем событие удаления карточки
-  card.querySelector('.element__trash-button').addEventListener('click', function(evt) {
-    const currentCard = evt.target.closest('.element');
-    currentCard.remove();
-  });
+  card.querySelector('.element__trash-button').addEventListener('click', deleteCurrentCard);
   //Возвращаем новую готовую карточку
   return card;
 }
+
+const cardAddButton = profile.querySelector('.profile__add-button');
+
+const popupNewCard = document.querySelector('.popup-newcard');
+const popupNewCardCloseButton = popupNewCard.querySelector('.popup-newcard__close-button');
+const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
+
+const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
+const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
 
 //Функция добавления новой карточки в контейнер
 function addNewCard() {
@@ -101,20 +113,9 @@ initialCards.forEach(function(card) {
   cardsContainer.append(initialCard);
 });
 
-// Выбираем элементы DOM - Кнопки открытия и закрытия формы добавления карточки
-const cardAddButton = profile.querySelector('.profile__add-button');
-
-const popupNewCard = document.querySelector('.popup-newcard');
-const popupNewCardCloseButton = popupNewCard.querySelector('.popup-newcard__close-button');
-
-const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
-const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
-const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
-
 //Вешаем события на кнопки открытия и закрытия формы добавления карты
 cardAddButton.addEventListener('click', () => {
-  nameNewCardInput.value = '';
-  linkNewCardInput.value = '';
+  formNewCardAdd.reset();
   openPopup(popupNewCard);
 });
 popupNewCardCloseButton.addEventListener('click', () => closePopup(popupNewCard));
