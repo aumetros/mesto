@@ -12,7 +12,7 @@ const nameInput = popupProfile.querySelector('.popup-profile__input_type_name');
 const aboutInput = popupProfile.querySelector('.popup-profile__input_type_about');
 
 // Выбираем элемент DOM - форма отправки изменения данных профайла
-const formProfileEdit = popupProfile.querySelector('.popup-profile__form-profile-edit');
+const formProfileEdit = popupProfile.querySelector('.popup__form-profile-edit');
 
 //Выбираем элементы DOM контейнеры для карточек и фотографии
 const cardsContainer = document.querySelector('.elements');
