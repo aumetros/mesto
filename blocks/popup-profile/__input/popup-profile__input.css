@@ -12,6 +12,10 @@
   outline-width: 0;
 }
 
+.popup-profile__input::placeholder {
+  color: #C4C4C4;
+}
+
 @media screen and (max-width: 540px) {
   .popup-profile__input {
     width: 238px;

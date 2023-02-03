@@ -58,7 +58,7 @@
     <!--Секция поп-апов-->
 
     <!--Поп-ап редактирования профайла-->
-    <section class="popup-profile popup">
+    <section class="popup-profile popup popup_opened">
 
       <div class="popup-profile__container">
 
@@ -69,12 +69,11 @@
 
           <input type="text" class="popup-profile__input popup-profile__input_type_name" name="name"
             placeholder="Введите своё имя" required>
-          <div class="popup-profile__line"></div>
+          <span class="popup-profile__input-error name-input-error"></span>
 
           <input type="text" class="popup-profile__input popup-profile__input_type_about" name="about"
             placeholder="Напишите о себе" required>
-          <div class="popup-profile__line"></div>
-
+          <span class="popup-profile__input-error popup-profile__input-error_type_active about-input-error">Вы пропустили поле</span>
 
           <button class="popup-profile__submit-button" type="submit">Сохранить</button>
 
