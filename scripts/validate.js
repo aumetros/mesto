@@ -17,14 +17,13 @@ const showInputError = (errorElement, input, errorClass) => {
   errorElement.textContent = input.validationMessage;
 };
 
-const checkInputValidity = (event, form, config) => {
-   const input = event.target;
-   const inputId = input.id;
-   const errorElement = form.querySelector(`.${inputId}-error`);
-  if (input.validity.valid) {
+const checkInputValidity = (form, inputElement, config) => {
+  const inputId = inputElement.id;
+  const errorElement = form.querySelector(`.${inputId}-error`);
+  if (inputElement.validity.valid) {
     hideInputError(errorElement, config.errorClass);
   } else {
-    showInputError(errorElement, input, config.errorClass);
+    showInputError(errorElement, inputElement, config.errorClass);
   }
 };
 
@@ -36,25 +35,31 @@ const toggleButtonState = (form, config) => {
 }
 
 const setEventListeners = (form, config) => {
-  const inputList = Array.from(form.querySelectorAll(config.inputSelector));    
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
   inputList.forEach((item) => {
-      item.addEventListener('input', function (event) {
-        checkInputValidity(event, form, config);        
+    item.addEventListener('input', function () {
+      checkInputValidity(form, item, config);
     });
   });
 };
 
 
-//Объвляем 
+//Объвляем функцию валидации
 function enableValidation(config) {
-const form = document.querySelector(config.formSelector);
 
-form.addEventListener('input', () => {
-  toggleButtonState(form, config);
-});
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
 
-setEventListeners(form, config);
-toggleButtonState(form, config);
+  formList.forEach((form) => {
+    form.addEventListener('input', () => {
+      toggleButtonState(form, config);
+    });
+    setEventListeners(form, config);
+    toggleButtonState(form, config);
+  });
+
+  // const form = document.querySelector(config.formSelector);
+
+
 
 }
 
