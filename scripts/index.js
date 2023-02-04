@@ -39,27 +39,25 @@ const popupList = document.querySelectorAll('.popup');
 
 const newCardAddButton = formNewCardAdd.querySelector('.popup__new-card-button');
 
+//Функция закрытия попапа при нажатии Esc
 function closePopupEsc(evt, popup) {
   if (evt.key === 'Escape') {
-   closePopup(popup);
+    closePopup(popup);
   }
 }
 
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  // document.addEventListener('keydown', closePopupEsc);
+  const call = (evt) => closePopupEsc(evt, popup)
+  document.addEventListener('keydown', call);
 }
 
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  // document.removeEventListener('keydown', (evt) => {
-  //   if (evt.key === 'Escape') {
-  //     closePopup(popup);
-  //   };
-  // })
-
+  const call = (evt) => closePopupEsc(evt, popup)
+  document.removeEventListener('keydown', call);
 }
 
 // Функция отправки изменений данных профайла
@@ -128,7 +126,9 @@ function disableCardAddForm() {
 profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
-  openPopup(popupProfile);  
+  openPopup(popupProfile);
+  // const call = (evt) => closePopupEsc(evt, popupProfile)
+  // document.addEventListener('keydown', call);
 });
 
 popupProfileCloseButton.addEventListener('click', () => closePopup(popupProfile));
@@ -153,14 +153,16 @@ formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
   closePopup(popupNewCard);
-  }
+}
 );
 
-//Прописываем для каждого попапа слушатель закрытия на клик
+//Прописываем для каждого попапа слушатель закрытия на клик по оверлею
 popupList.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
     if (evt.target === popup) {
       popup.classList.remove('popup_opened');
+      const call = (evt) => closePopupEsc(evt, popup)
+      document.removeEventListener('keydown', call);
     }
   })
 });
