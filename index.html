@@ -75,7 +75,7 @@
             placeholder="Напишите о себе" minlength="2" maxlength="200" required>
           <span class="popup__input_type_error about-input-error"></span>
 
-          <button class="popup__button popup-profile__submit-button" type="submit">Сохранить</button>
+          <button class="popup__button" type="submit">Сохранить</button>
 
         </form>
 
@@ -90,21 +90,21 @@
 
       <div class="popup-newcard__container">
 
-        <form class="popup_form popup-newcard__form-card-add" name="card-add">
+        <form class="popup_form popup-newcard__form-card-add" name="card-add" novalidate>
 
           <h2 class="popup-newcard__title">Новое место</h2>
 
 
-          <input type="text" class="popup__input popup-newcard__input_type_name" name="name"
+          <input type="text" id="place-name" class="popup__input popup-newcard__input_type_name" name="name"
             placeholder="Название" required>
-            <span class="popup__input_type_error popup-profile__input-error name-input-error"></span>
+            <span class="popup__input_type_error popup-profile__input-error place-name-error"></span>
 
-          <input type="url" class="popup__input popup-newcard__input_type_link" name="link"
+          <input type="url" id="link" class="popup__input popup-newcard__input_type_link" name="link"
             placeholder="Ссылка на картинку" required>
-            <span class="popup__input_type_error popup-profile__input-error name-input-error"></span>
+            <span class="popup__input_type_error popup-profile__input-error link-error"></span>
 
 
-          <button class="popup__button popup-newcard__submit-button" type="submit">Создать</button>
+          <button class="popup__button" type="submit">Создать</button>
 
         </form>
 
