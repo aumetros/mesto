@@ -34,6 +34,8 @@ const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add
 const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
 const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
 
+//Находим список попапов
+const popupList = document.querySelectorAll('.popup');
 
 //Функция открытия попапа
 function openPopup(popup) {
@@ -48,6 +50,11 @@ function openPopup(popup) {
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(popup);
+    };
+  })
 }
 
 // Функция отправки изменений данных профайла
@@ -137,8 +144,7 @@ formNewCardAdd.addEventListener('submit', function (evt) {
 }
 );
 
-const popupList = document.querySelectorAll('.popup');
-
+//Прописываем для каждого попапа слушатель закрытия на клик
 popupList.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
     if (evt.target === popup) {
@@ -146,12 +152,3 @@ popupList.forEach((popup) => {
     }
   })
 });
-
-
-
-// function closePopupEsc(evt, popup) {
-//   if (evt.key === 'Escape') {
-//   closePopup(popup);
-//   }
-//  }
-

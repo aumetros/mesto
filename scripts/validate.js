@@ -51,15 +51,22 @@ const setEventListeners = (form, config) => {
   });
 };
 
+//Функция проверки состояния кнопки submit при первом открытии попапа
+function toggleFirstOpenButtonState(form, editButton, config) {
+  editButton.addEventListener('click', () => {
+    toggleButtonState(form, config);
+  });
+}
 
 //Объвляем функцию валидации на каждую форму на странице
 function enableValidation(config) {
 
   //Ищем все формы с заданным классом
   const formList = Array.from(document.querySelectorAll(config.formSelector));
-  
+
   //Прописываем каждой форме валидацию полей и переключатель состояния кнопки
   formList.forEach((form) => {
+
     form.addEventListener('input', () => {
       toggleButtonState(form, config);
     });
@@ -68,4 +75,9 @@ function enableValidation(config) {
   });
 }
 
+//Запускаем валидацию форм
 enableValidation(formValidationConfig);
+
+//Устанавливаем правильное состояние кнопки submit, тк данные при первой загрузке
+//поступают в неё только после клика на кнопку.
+toggleFirstOpenButtonState(formProfileEdit, profileEditButton, formValidationConfig);
