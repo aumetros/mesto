@@ -34,9 +34,15 @@ const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add
 const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
 const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
 
+
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(popup);
+    };
+  })
 }
 
 //Функция закрытия попапа
@@ -53,13 +59,13 @@ function handleProfileFormSubmit(evt) {
 }
 
 //Функция удаления карточки
-function deleteCurrentCard (evt) {
+function deleteCurrentCard(evt) {
   const currentCard = evt.target.closest('.element');
   currentCard.remove();
 }
 
 //Функция создания новой карточки
-function createNewCard(name, link) {  
+function createNewCard(name, link) {
   //Клонируем код карточки
   const card = cardTemplate.cloneNode(true);
   //Наполняем клонированную карточку
@@ -70,7 +76,7 @@ function createNewCard(name, link) {
   //Вешаем на фотографию событие открытия попапа и просмотра фотографии
   cardFoto.addEventListener('click', () => handleImageClick(name, link));
   //Вешаем событие лайка на создаваемую карточку
-  card.querySelector('.element__like-button').addEventListener('click', function(evt) {
+  card.querySelector('.element__like-button').addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__like-button_checked');
   });
   //Вешаем событие удаления карточки
@@ -83,11 +89,11 @@ function createNewCard(name, link) {
 function addNewCard() {
   //Сохраняем возвращаемую функцией карточку в переменную
   const newElement = createNewCard(nameNewCardInput.value, linkNewCardInput.value);
-  cardsContainer.prepend(newElement);  
+  cardsContainer.prepend(newElement);
 }
 
 //Перебираем массив карточек и создаем из них элементы списка карточек
-initialCards.forEach(function(card) {
+initialCards.forEach(function (card) {
   const initialCard = createNewCard(card.name, card.link);
   cardsContainer.append(initialCard);
 });
@@ -124,9 +130,28 @@ cardAddButton.addEventListener('click', () => {
 popupNewCardCloseButton.addEventListener('click', () => closePopup(popupNewCard));
 
 //Вешаем событие на форму отправки новой карточки и закрываем попап
-formNewCardAdd.addEventListener('submit', function(evt) {
+formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
   closePopup(popupNewCard);
-  }
+}
 );
+
+const popupList = document.querySelectorAll('.popup');
+
+popupList.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === popup) {
+      popup.classList.remove('popup_opened');
+    }
+  })
+});
+
+
+
+// function closePopupEsc(evt, popup) {
+//   if (evt.key === 'Escape') {
+//   closePopup(popup);
+//   }
+//  }
+
