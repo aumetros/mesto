@@ -37,24 +37,29 @@ const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_typ
 //Находим список попапов
 const popupList = document.querySelectorAll('.popup');
 
+const newCardAddButton = formNewCardAdd.querySelector('.popup__new-card-button');
+
+function closePopupEsc(evt, popup) {
+  if (evt.key === 'Escape') {
+   closePopup(popup);
+  }
+}
+
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    };
-  })
+  // document.addEventListener('keydown', closePopupEsc);
 }
 
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    };
-  })
+  // document.removeEventListener('keydown', (evt) => {
+  //   if (evt.key === 'Escape') {
+  //     closePopup(popup);
+  //   };
+  // })
+
 }
 
 // Функция отправки изменений данных профайла
@@ -113,11 +118,17 @@ function handleImageClick(name, link) {
   openPopup(imagePopup);
 }
 
+//Функция очистки формы после добавления новой карточки или закрытия валидной
+function disableCardAddForm() {
+  newCardAddButton.classList.add('popup__button_disabled');
+  newCardAddButton.setAttribute('disabled', '');
+}
+
 //Вешаем события на кнопки открытия и закрытия попапа редактирования профайла
 profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
-  openPopup(popupProfile);
+  openPopup(popupProfile);  
 });
 
 popupProfileCloseButton.addEventListener('click', () => closePopup(popupProfile));
@@ -130,6 +141,7 @@ imagePopup.querySelector('.popup-image__close-button').addEventListener('click',
 
 //Вешаем события на кнопки открытия и закрытия формы добавления карты
 cardAddButton.addEventListener('click', () => {
+  disableCardAddForm();
   formNewCardAdd.reset();
   openPopup(popupNewCard);
 });
@@ -141,7 +153,7 @@ formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
   closePopup(popupNewCard);
-}
+  }
 );
 
 //Прописываем для каждого попапа слушатель закрытия на клик
