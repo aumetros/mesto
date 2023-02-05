@@ -64,6 +64,7 @@ function enableValidation(config) {
       toggleButtonState(form, config);
     });
     setEventListeners(form, config);
+    
   });
 }
 

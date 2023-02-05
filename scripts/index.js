@@ -53,11 +53,21 @@ function openPopup(popup) {
   document.addEventListener('keydown', call);
 }
 
+//Функция очистки полей валидации, если окно было закрыто с ошибкой и вызвано снова
+function resetErrorInput(popup) {
+ const errorInputList = popup.querySelectorAll('.popup__input_type_error');
+ errorInputList.forEach((errorInput) => {
+ errorInput.textContent = '';
+ errorInput.classList.remove('popup__error_visible');
+ })
+}
+
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   const call = (evt) => closePopupEsc(evt, popup)
   document.removeEventListener('keydown', call);
+  resetErrorInput(popup);
 }
 
 // Функция отправки изменений данных профайла
@@ -117,6 +127,8 @@ popupList.forEach((popup) => {
       //Удаляем слушатель Esc при закрытию по оверлею
       const call = (evt) => closePopupEsc(evt, popup)
       document.removeEventListener('keydown', call);
+
+      resetErrorInput(popup);
     }
   })
 });
