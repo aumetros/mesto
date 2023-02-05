@@ -108,6 +108,19 @@ initialCards.forEach(function (card) {
   cardsContainer.append(initialCard);
 });
 
+//Прописываем для каждого попапа слушатель закрытия на клик по оверлею
+popupList.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === popup) {
+      popup.classList.remove('popup_opened');
+      
+      //Удаляем слушатель Esc при закрытию по оверлею
+      const call = (evt) => closePopupEsc(evt, popup)
+      document.removeEventListener('keydown', call);
+    }
+  })
+});
+
 //Обработчик события при клике на картинку - открытие просмотра
 function handleImageClick(name, link) {
   currentImage.src = link;
@@ -155,14 +168,3 @@ formNewCardAdd.addEventListener('submit', function (evt) {
   closePopup(popupNewCard);
 }
 );
-
-//Прописываем для каждого попапа слушатель закрытия на клик по оверлею
-popupList.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target === popup) {
-      popup.classList.remove('popup_opened');
-      const call = (evt) => closePopupEsc(evt, popup)
-      document.removeEventListener('keydown', call);
-    }
-  })
-});
