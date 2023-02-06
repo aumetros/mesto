@@ -3,7 +3,6 @@ const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit-button');
 
 const popupProfile = document.querySelector('.popup-profile');
-const popupProfileCloseButton = popupProfile.querySelector('.popup-profile__close-button');
 
 const nameProfile = profile.querySelector('.profile__name');
 const aboutProfile = profile.querySelector('.profile__about');
@@ -28,7 +27,6 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.ele
 const cardAddButton = profile.querySelector('.profile__add-button');
 
 const popupNewCard = document.querySelector('.popup-newcard');
-const popupNewCardCloseButton = popupNewCard.querySelector('.popup-newcard__close-button');
 const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add');
 
 const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
@@ -47,28 +45,25 @@ function closePopupEsc(evt) {
   }
 }
 
-//Функция открытия попапа
+//Функция открытия попапа и установки слушателя Esc
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  // const call = (evt) => closePopupEsc(evt, popup)
   document.addEventListener('keydown', closePopupEsc);
 }
 
-//Функция закрытия попапа
+//Функция закрытия попапа и снятия слушателя Esc
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  // const call = (evt) => closePopupEsc(evt, popup)
   document.removeEventListener('keydown', closePopupEsc);
-  // resetErrorInput(popup);
 }
 
 //Функция очистки полей валидации, если окно было закрыто с ошибкой и вызвано снова
 function resetErrorInput(popup) {
- const errorInputList = popup.querySelectorAll('.popup__input_type_error');
- errorInputList.forEach((errorInput) => {
- errorInput.textContent = '';
- errorInput.classList.remove('popup__error_visible');
- })
+  const errorInputList = popup.querySelectorAll('.popup__input_type_error');
+  errorInputList.forEach((errorInput) => {
+    errorInput.textContent = '';
+    errorInput.classList.remove('popup__error_visible');
+  })
 }
 
 // Функция отправки изменений данных профайла
@@ -119,20 +114,14 @@ initialCards.forEach(function (card) {
   cardsContainer.append(initialCard);
 });
 
-//Прописываем для каждого попапа слушатель закрытия на клик по оверлею
+//Прописываем для каждого попапа слушатели клика по оверлею и кнопке закрытия
 popupList.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target === popup) {
-       
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
       closePopup(popup);
-
-      // popup.classList.remove('popup_opened');
-      
-      //Удаляем слушатель Esc при закрытию по оверлею
-      // const call = (evt) => closePopupEsc(evt, popup)
-      // document.removeEventListener('keydown', call);
-
-      // resetErrorInput(popup);
+    }
+    if (evt.target.classList.contains('popup__close')) {
+      closePopup(popup);
     }
   })
 });
@@ -151,30 +140,21 @@ function disableCardAddForm() {
   newCardAddButton.setAttribute('disabled', '');
 }
 
-//Вешаем события на кнопки открытия и закрытия попапа редактирования профайла
+//Вешаем события на кнопку открытия формы редактирования профайла
 profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
-  aboutInput.value = aboutProfile.innerText;  
+  aboutInput.value = aboutProfile.innerText;
   openPopup(popupProfile);
   resetErrorInput(popupProfile);
-  // const call = (evt) => closePopupEsc(evt, popupProfile)
-  // document.addEventListener('keydown', call);
 });
-
-popupProfileCloseButton.addEventListener('click', () => closePopup(popupProfile));
 
 //Вешаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleProfileFormSubmit);
 
-//Вешаем событие на кнопку закрытия попапа просмотра фото
-imagePopup.querySelector('.popup-image__close-button').addEventListener('click', () => closePopup(imagePopup));
-
-//Вешаем события на кнопки открытия и закрытия формы добавления карты
+//Вешаем событие на кнопку открытия формы добавления карты
 cardAddButton.addEventListener('click', () => openPopup(popupNewCard));
 
-popupNewCardCloseButton.addEventListener('click', () => closePopup(popupNewCard));
-
-//Вешаем событие на форму отправки новой карточки и закрываем попап
+//Вешаем событие на форму отправки новой карточки, блокируем кнопку отправки, очищаем форму и закрываем попап
 formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
