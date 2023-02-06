@@ -40,17 +40,26 @@ const popupList = document.querySelectorAll('.popup');
 const newCardAddButton = formNewCardAdd.querySelector('.popup__new-card-button');
 
 //Функция закрытия попапа при нажатии Esc
-function closePopupEsc(evt, popup) {
+function closePopupEsc(evt) {
   if (evt.key === 'Escape') {
-    closePopup(popup);
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  const call = (evt) => closePopupEsc(evt, popup)
-  document.addEventListener('keydown', call);
+  // const call = (evt) => closePopupEsc(evt, popup)
+  document.addEventListener('keydown', closePopupEsc);
+}
+
+//Функция закрытия попапа
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  // const call = (evt) => closePopupEsc(evt, popup)
+  document.removeEventListener('keydown', closePopupEsc);
+  // resetErrorInput(popup);
 }
 
 //Функция очистки полей валидации, если окно было закрыто с ошибкой и вызвано снова
@@ -60,14 +69,6 @@ function resetErrorInput(popup) {
  errorInput.textContent = '';
  errorInput.classList.remove('popup__error_visible');
  })
-}
-
-//Функция закрытия попапа
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  const call = (evt) => closePopupEsc(evt, popup)
-  document.removeEventListener('keydown', call);
-  resetErrorInput(popup);
 }
 
 // Функция отправки изменений данных профайла
@@ -122,13 +123,16 @@ initialCards.forEach(function (card) {
 popupList.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
     if (evt.target === popup) {
-      popup.classList.remove('popup_opened');
+       
+      closePopup(popup);
+
+      // popup.classList.remove('popup_opened');
       
       //Удаляем слушатель Esc при закрытию по оверлею
-      const call = (evt) => closePopupEsc(evt, popup)
-      document.removeEventListener('keydown', call);
+      // const call = (evt) => closePopupEsc(evt, popup)
+      // document.removeEventListener('keydown', call);
 
-      resetErrorInput(popup);
+      // resetErrorInput(popup);
     }
   })
 });
@@ -150,8 +154,9 @@ function disableCardAddForm() {
 //Вешаем события на кнопки открытия и закрытия попапа редактирования профайла
 profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
-  aboutInput.value = aboutProfile.innerText;
+  aboutInput.value = aboutProfile.innerText;  
   openPopup(popupProfile);
+  resetErrorInput(popupProfile);
   // const call = (evt) => closePopupEsc(evt, popupProfile)
   // document.addEventListener('keydown', call);
 });
@@ -165,11 +170,7 @@ formProfileEdit.addEventListener('submit', handleProfileFormSubmit);
 imagePopup.querySelector('.popup-image__close-button').addEventListener('click', () => closePopup(imagePopup));
 
 //Вешаем события на кнопки открытия и закрытия формы добавления карты
-cardAddButton.addEventListener('click', () => {
-  disableCardAddForm();
-  formNewCardAdd.reset();
-  openPopup(popupNewCard);
-});
+cardAddButton.addEventListener('click', () => openPopup(popupNewCard));
 
 popupNewCardCloseButton.addEventListener('click', () => closePopup(popupNewCard));
 
@@ -177,6 +178,7 @@ popupNewCardCloseButton.addEventListener('click', () => closePopup(popupNewCard)
 formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
+  disableCardAddForm();
+  formNewCardAdd.reset();
   closePopup(popupNewCard);
-}
-);
+});
