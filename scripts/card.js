@@ -31,13 +31,17 @@ export default class Card {
   //   openPopup(imagePopup);
   // }
 
-  // _setEventListeners() {
-  //   const cardFoto = this._element.querySelector('.element__foto');
+  _setEventListeners() {
 
-  //   cardFoto.addEventListener('click', () => {
-  //     handleImageClick();
-  //   })
-  // }
+    this._element.querySelector('.element__like-button').addEventListener('click', function (evt) {    
+      evt.target.classList.toggle('element__like-button_checked');
+    });
+    
+    this._element.querySelector('.element__trash-button').addEventListener('click', () => {
+      this._element.remove();
+    });
+   
+  }
 
   generateCard() {
     this._element = this._getTemplate();
@@ -45,6 +49,8 @@ export default class Card {
     this._element.querySelector('.element__foto').src = this._link;
     this._element.querySelector('.element__foto').alt = this._name;
     this._element.querySelector('.element__title').textContent = this._name;
+
+    this._setEventListeners();
 
     return this._element;
   }
