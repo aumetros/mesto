@@ -1,3 +1,5 @@
+import Card from './card.js';
+
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы редактирования профайла
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit-button');
@@ -80,26 +82,26 @@ function deleteCurrentCard(evt) {
   currentCard.remove();
 }
 
-//Функция создания новой карточки
-function createNewCard(name, link) {
-  //Клонируем код карточки
-  const card = cardTemplate.cloneNode(true);
-  //Наполняем клонированную карточку
-  card.querySelector('.element__title').textContent = name;
-  const cardFoto = card.querySelector('.element__foto');
-  cardFoto.src = link;
-  cardFoto.alt = name;
-  //Вешаем на фотографию событие открытия попапа и просмотра фотографии
-  cardFoto.addEventListener('click', () => handleImageClick(name, link));
-  //Вешаем событие лайка на создаваемую карточку
-  card.querySelector('.element__like-button').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__like-button_checked');
-  });
-  //Вешаем событие удаления карточки
-  card.querySelector('.element__trash-button').addEventListener('click', deleteCurrentCard);
-  //Возвращаем новую готовую карточку
-  return card;
-}
+// //Функция создания новой карточки
+// function createNewCard(name, link) {
+//   //Клонируем код карточки
+//   const card = cardTemplate.cloneNode(true);
+//   //Наполняем клонированную карточку
+//   card.querySelector('.element__title').textContent = name;
+//   const cardFoto = card.querySelector('.element__foto');
+//   cardFoto.src = link;
+//   cardFoto.alt = name;
+//   //Вешаем на фотографию событие открытия попапа и просмотра фотографии
+//   cardFoto.addEventListener('click', () => handleImageClick(name, link));
+//   //Вешаем событие лайка на создаваемую карточку
+//   card.querySelector('.element__like-button').addEventListener('click', function (evt) {
+//     evt.target.classList.toggle('element__like-button_checked');
+//   });
+//   //Вешаем событие удаления карточки
+//   card.querySelector('.element__trash-button').addEventListener('click', deleteCurrentCard);
+//   //Возвращаем новую готовую карточку
+//   return card;
+// }
 
 //Функция добавления новой карточки в контейнер
 function addNewCard() {
@@ -108,11 +110,18 @@ function addNewCard() {
   cardsContainer.prepend(newElement);
 }
 
-//Перебираем массив карточек и создаем из них элементы списка карточек
-initialCards.forEach(function (card) {
-  const initialCard = createNewCard(card.name, card.link);
-  cardsContainer.append(initialCard);
-});
+// //Перебираем массив карточек и создаем из них элементы списка карточек
+// initialCards.forEach(function (card) {
+//   const initialCard = createNewCard(card.name, card.link);
+//   cardsContainer.append(initialCard);
+// });
+
+initialCards.forEach((item) => {
+const card = new Card(item, '#card');
+const cardElement = card.generateCard();
+
+cardsContainer.append(cardElement);
+})
 
 //Прописываем для каждого попапа слушатели клика по оверлею и кнопке закрытия
 popupList.forEach((popup) => {
