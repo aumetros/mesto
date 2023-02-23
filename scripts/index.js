@@ -1,5 +1,5 @@
 //Импортируем модули карточки, готовых карточек и валидации форм.
-import Card from './Card.js';
+import Card from './CardNew.js';
 import { initialCards } from './initialcards.js';
 import FormValidator from './FormValidator.js';
 
