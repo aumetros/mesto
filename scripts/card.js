@@ -1,6 +1,5 @@
 import {openPopup as _openPopup} from "./index.js";
 
-// Выбираем элементы DOM фотографию и описание для просмотра
 const imagePopup = document.querySelector('.popup-image');
 const currentImage = imagePopup.querySelector('.popup-image__item');
 const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle');

@@ -31,9 +31,6 @@ const formProfileEdit = popupProfile.querySelector('.popup__form-profile-edit');
 //Выбираем элементы DOM контейнеры для карточек и фотографии
 const cardsContainer = document.querySelector('.elements');
 
-//Находим заготовку карточки
-const cardTemplate = document.querySelector('#card').content.querySelector('.element');
-
 const cardAddButton = profile.querySelector('.profile__add-button');
 
 const popupNewCard = document.querySelector('.popup-newcard');
@@ -42,10 +39,11 @@ const formNewCardAdd = popupNewCard.querySelector('.popup-newcard__form-card-add
 const nameNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_name');
 const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_type_link');
 
-//Находим список попапов
 const popupList = document.querySelectorAll('.popup');
 
 const newCardAddButton = formNewCardAdd.querySelector('.popup__new-card-button');
+
+const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
 
 //Функция закрытия попапа при нажатии Esc
 function closePopupEsc(evt) {
@@ -86,34 +84,37 @@ function handleProfileFormSubmit(evt) {
 
 //Функция добавления новой карточки в контейнер
 function addNewCard() {
-  //Сохраняем возвращаемую функцией карточку в переменную
- const data = {};
- data.link = linkNewCardInput.value;
- data.name = nameNewCardInput.value;
+  const data = {};
+  data.link = linkNewCardInput.value;
+  data.name = nameNewCardInput.value;
 
- const card = new Card(data, '#card');
- const newElement = card.generateCard();
+  const card = new Card(data, '#card');
+  const newElement = card.generateCard();
 
-cardsContainer.prepend(newElement);
+  cardsContainer.prepend(newElement);
 }
 
+//Функция очистки формы после добавления новой карточки или закрытия валидной
+function disableCardAddForm() {
+  newCardAddButton.classList.add('popup__button_disabled');
+  newCardAddButton.setAttribute('disabled', '');
+}
+
+//Создаем карточки из предварительного списка
 initialCards.forEach((item) => {
-const card = new Card(item, '#card');
-const cardElement = card.generateCard();
+  const card = new Card(item, '#card');
+  const cardElement = card.generateCard();
 
-cardsContainer.append(cardElement);
-})
+  cardsContainer.append(cardElement);
+});
 
-
-const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
-
+//Устанавливаем валидацию на каждую форму
 formList.forEach((form) => {
-  const validator = new FormValidator(configValidation, form);
-  validator.enableValidation();
-})
+  const validationData = new FormValidator(configValidation, form);
+  validationData.enableValidation();
+});
 
-
-//Прописываем для каждого попапа слушатели клика по оверлею и кнопке закрытия
+//Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
 popupList.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup_opened')) {
@@ -125,13 +126,7 @@ popupList.forEach((popup) => {
   })
 });
 
-//Функция очистки формы после добавления новой карточки или закрытия валидной
-function disableCardAddForm() {
-  newCardAddButton.classList.add('popup__button_disabled');
-  newCardAddButton.setAttribute('disabled', '');
-}
-
-//Вешаем события на кнопку открытия формы редактирования профайла
+//Устанавливаем слушатель события на кнопку открытия формы редактирования профайла
 profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
@@ -139,13 +134,13 @@ profileEditButton.addEventListener('click', () => {
   resetErrorInput(popupProfile);
 });
 
-//Вешаем событие на кнопку отправки новых данных профайла
+//Устанавливаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener('submit', handleProfileFormSubmit);
 
-//Вешаем событие на кнопку открытия формы добавления карты
+//Устанавливаем событие на кнопку открытия формы добавления карты
 cardAddButton.addEventListener('click', () => openPopup(popupNewCard));
 
-//Вешаем событие на форму отправки новой карточки, блокируем кнопку отправки, очищаем форму и закрываем попап
+//Устанавливаем событие на форму отправки новой карточки, блокируем кнопку отправки, очищаем форму и закрываем попап
 formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
   addNewCard();
