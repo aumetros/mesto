@@ -1,4 +1,4 @@
-import {openPopup} from "./index.js";
+import {openPopup as _openPopup} from "./index.js";
 
 // Выбираем элементы DOM фотографию и описание для просмотра
 const imagePopup = document.querySelector('.popup-image');
@@ -27,7 +27,7 @@ export default class Card {
     currentImage.src = this._link;
     currentImage.alt = this._name;
     currentImageSubtitle.textContent = this._name;
-    openPopup(imagePopup);
+    _openPopup(imagePopup);
   }
 
   _setEventListeners() {

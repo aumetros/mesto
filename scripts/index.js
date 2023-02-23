@@ -1,4 +1,17 @@
-import Card from './card.js';
+//Импортируем модули карточки, готовых карточек и валидации форм.
+import Card from './Card.js';
+import { initialCards } from './initialcards.js';
+import FormValidator from './FormValidator.js';
+
+//Конфигуратор селекторов и классов для валидации форм
+const configValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
 
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы редактирования профайла
 const profile = document.querySelector('.profile');
@@ -90,6 +103,15 @@ const cardElement = card.generateCard();
 
 cardsContainer.append(cardElement);
 })
+
+
+const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
+
+formList.forEach((form) => {
+  const validator = new FormValidator(configValidation, form);
+  validator.enableValidation();
+})
+
 
 //Прописываем для каждого попапа слушатели клика по оверлею и кнопке закрытия
 popupList.forEach((popup) => {
