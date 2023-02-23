@@ -74,8 +74,14 @@ function handleProfileFormSubmit(evt) {
 //Функция добавления новой карточки в контейнер
 function addNewCard() {
   //Сохраняем возвращаемую функцией карточку в переменную
-  const newElement = createNewCard(nameNewCardInput.value, linkNewCardInput.value);
-  cardsContainer.prepend(newElement);
+ const data = {};
+ data.link = linkNewCardInput.value;
+ data.name = nameNewCardInput.value;
+
+ const card = new Card(data, '#card');
+ const newElement = card.generateCard();
+
+cardsContainer.prepend(newElement);
 }
 
 initialCards.forEach((item) => {
