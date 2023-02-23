@@ -84,11 +84,10 @@ function handleProfileFormSubmit(evt) {
 
 //Функция добавления новой карточки в контейнер
 function addNewCard() {
-  const data = {};
-  data.link = linkNewCardInput.value;
-  data.name = nameNewCardInput.value;
+  const link = linkNewCardInput.value;
+  const name = nameNewCardInput.value;
 
-  const card = new Card(data, '#card');
+  const card = new Card(link, name, '#card');
   const newElement = card.generateCard();
 
   cardsContainer.prepend(newElement);
@@ -102,7 +101,7 @@ function disableCardAddForm() {
 
 //Создаем карточки из предварительного списка
 initialCards.forEach((item) => {
-  const card = new Card(item, '#card');
+  const card = new Card(item.link, item.name, '#card');
   const cardElement = card.generateCard();
 
   cardsContainer.append(cardElement);

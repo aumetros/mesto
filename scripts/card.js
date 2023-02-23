@@ -6,9 +6,9 @@ const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle');
 
 
 export default class Card {
-  constructor(data, templateSelector) {
-    this._link = data.link;
-    this._name = data.name;
+  constructor(link, name, templateSelector) {
+    this._link = link;
+    this._name = name;
     this._templateSelector = templateSelector;
   }
 
