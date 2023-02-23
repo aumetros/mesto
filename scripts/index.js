@@ -1,6 +1,6 @@
 //Импортируем модули карточки, готовых карточек и валидации форм.
 import Card from './Card.js';
-import { initialCards } from './initialcards.js';
+import { initialCards } from './initialCards.js';
 import FormValidator from './FormValidator.js';
 
 //Конфигуратор селекторов и классов для валидации форм
@@ -42,6 +42,10 @@ const linkNewCardInput = formNewCardAdd.querySelector('.popup-newcard__input_typ
 const popupList = document.querySelectorAll('.popup');
 
 const newCardAddButton = formNewCardAdd.querySelector('.popup__new-card-button');
+
+const imagePopup = document.querySelector('.popup-image');
+const currentImage = imagePopup.querySelector('.popup-image__item');
+const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle');
 
 const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
 
@@ -99,6 +103,14 @@ function disableCardAddForm() {
   newCardAddButton.setAttribute('disabled', '');
 }
 
+//Обработчик события при клике на картинку - открытие просмотра
+function OpenImagePopup(name, link) {
+  currentImage.src = link;
+  currentImage.alt = name;
+  currentImageSubtitle.textContent = name;
+  openPopup(imagePopup);
+}
+
 //Создаем карточки из предварительного списка
 initialCards.forEach((item) => {
   const card = new Card(item.link, item.name, '#card');
@@ -148,4 +160,4 @@ formNewCardAdd.addEventListener('submit', function (evt) {
   closePopup(popupNewCard);
 });
 
-export {openPopup};
+export {openPopup, OpenImagePopup};

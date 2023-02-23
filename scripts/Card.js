@@ -1,9 +1,4 @@
-import {openPopup as _openPopup} from "./index.js";
-
-const imagePopup = document.querySelector('.popup-image');
-const currentImage = imagePopup.querySelector('.popup-image__item');
-const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle');
-
+import {OpenImagePopup} from "./index.js";
 
 export default class Card {
   constructor(link, name, templateSelector) {
@@ -22,25 +17,27 @@ export default class Card {
     return cardElement;
   }
 
-  _handleImageClick() {
-    currentImage.src = this._link;
-    currentImage.alt = this._name;
-    currentImageSubtitle.textContent = this._name;
-    _openPopup(imagePopup);
+  _handleLikeCard(evt) {
+    evt.target.classList.toggle('element__like-button_checked');
+  }
+
+  _handleDeleteCard(evt) {
+    const currentCard = evt.target.closest('.element');
+    currentCard.remove();
+  }
+
+  _handleImageClick(evt) {
+    const name = evt.target.alt;
+    const link = evt.target.src;
+    OpenImagePopup(name, link);
   }
 
   _setEventListeners() {
-    this._element.querySelector('.element__like-button').addEventListener('click', function (evt) {    
-      evt.target.classList.toggle('element__like-button_checked');
-    });
+    this._element.querySelector('.element__like-button').addEventListener('click', this._handleLikeCard);
     
-    this._element.querySelector('.element__trash-button').addEventListener('click', () => {
-      this._element.remove();
-    });
+    this._element.querySelector('.element__trash-button').addEventListener('click', this._handleDeleteCard);
 
-    this._element.querySelector('.element__foto').addEventListener('click', () => {
-      this._handleImageClick();
-    });   
+    this._element.querySelector('.element__foto').addEventListener('click', this._handleImageClick);   
   }
 
   generateCard() {
