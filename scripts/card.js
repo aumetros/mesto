@@ -1,3 +1,11 @@
+import {openPopup} from "./index.js";
+
+// Выбираем элементы DOM фотографию и описание для просмотра
+const imagePopup = document.querySelector('.popup-image');
+const currentImage = imagePopup.querySelector('.popup-image__item');
+const currentImageSubtitle = imagePopup.querySelector('.popup-image__subtitle');
+
+
 export default class Card {
   constructor(data, templateSelector) {
     this._link = data.link;
@@ -15,24 +23,14 @@ export default class Card {
     return cardElement;
   }
 
-  // _handleClosePopup() {
-    
-  // }
-
-  // _handleOpenPopup() {
-  //   imagePopup.classList.add('popup_opened');
-  //   document.addEventListener('keydown', closePopupEsc);
-  // }
-
-  // _handleImageClick() {
-  //   currentImage.src = this._link;
-  //   currentImage.alt = this._name;
-  //   currentImageSubtitle.textContent = this._name;
-  //   openPopup(imagePopup);
-  // }
+  _handleImageClick() {
+    currentImage.src = this._link;
+    currentImage.alt = this._name;
+    currentImageSubtitle.textContent = this._name;
+    openPopup(imagePopup);
+  }
 
   _setEventListeners() {
-
     this._element.querySelector('.element__like-button').addEventListener('click', function (evt) {    
       evt.target.classList.toggle('element__like-button_checked');
     });
@@ -40,7 +38,10 @@ export default class Card {
     this._element.querySelector('.element__trash-button').addEventListener('click', () => {
       this._element.remove();
     });
-   
+
+    this._element.querySelector('.element__foto').addEventListener('click', () => {
+      this._handleImageClick();
+    });   
   }
 
   generateCard() {
