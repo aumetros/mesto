@@ -2,22 +2,22 @@ export default class FormValidator {
   constructor(config, form) {
     this._config = config;
     this._form = form;
+    this._buttonElement = this._form.querySelector(this._config.submitButtonSelector);
   }
 
   _toggleButtonState() {
-    const buttonElement = this._form.querySelector(this._config.submitButtonSelector);
     const isFormValid = this._form.checkValidity();
-    buttonElement.disabled = !isFormValid;
-    buttonElement.classList.toggle(this._config.inactiveButtonClass, !isFormValid);
+    this._buttonElement.disabled = !isFormValid;
+    this._buttonElement.classList.toggle(this._config.inactiveButtonClass, !isFormValid);
   }
 
-  _hideInputError(errorElement, errorClass) {
-    errorElement.classList.remove(errorClass);
+  _hideInputError(errorElement) {
+    errorElement.classList.remove(this._config.errorClass);
     errorElement.textContent = '';
   }
 
-  _showInputError(errorElement, input, errorClass) {
-    errorElement.classList.add(errorClass);
+  _showInputError(errorElement, input) {
+    errorElement.classList.add(this._config.errorClass);
     errorElement.textContent = input.validationMessage;
   }
 
@@ -26,9 +26,9 @@ export default class FormValidator {
     const errorElement = this._form.querySelector(`.${inputId}-error`);
 
     if (item.validity.valid) {
-      this._hideInputError(errorElement, this._config.errorClass);
+      this._hideInputError(errorElement);
     } else {
-      this._showInputError(errorElement, item, this._config.errorClass);
+      this._showInputError(errorElement, item);
     }
   }
 
