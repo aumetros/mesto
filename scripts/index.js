@@ -88,20 +88,27 @@ function handleProfileFormSubmit(evt) {
 }
 
 //Функция создания новой карточки
-function createNewCard(link, name) {
-  const card = new Card(link, name, "#card");
+function createNewCard(data) {
+  const card = new Card(data, "#card");
   const newElement = card.generateCard();
   return newElement;
 }
 
 //Функция добавления новой карточки в контейнер
 function handleCardFormSubmit() {
-  const link = linkNewCardInput.value;
-  const name = nameNewCardInput.value;
+  const data = {};
+  data.link = linkNewCardInput.value;
+  data.name = nameNewCardInput.value;
 
-  const newCard = createNewCard(link, name);
+  const newCard = createNewCard(data);
   cardsContainer.prepend(newCard);
 }
+
+//Создаем карточки из предварительного списка
+initialCards.forEach((item) => {
+  const newCard = createNewCard(item);
+  cardsContainer.append(newCard);
+});
 
 //Обработчик события при клике на картинку - открытие просмотра
 function OpenImagePopup(name, link) {
@@ -111,12 +118,6 @@ function OpenImagePopup(name, link) {
   openPopup(imagePopup);
 }
 
-//Создаем карточки из предварительного списка
-initialCards.forEach((item) => {
-  const newCard = createNewCard(item.link, item.name);
-  cardsContainer.append(newCard);
-});
-
 //Функция валидации формы
 function handleValidation(form) {
   const validationData = new FormValidator(configValidation, form);
@@ -125,8 +126,8 @@ function handleValidation(form) {
 
 //Устанавливаем валидацию на каждую форму
 formList.forEach((form) => {
- const validationItem = handleValidation(form);
- validationItem.enableValidation();
+  const validationItem = handleValidation(form);
+  validationItem.enableValidation();
 });
 
 //Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
@@ -134,8 +135,7 @@ popupList.forEach((popup) => {
   popup.addEventListener("mousedown", (evt) => {
     if (evt.target.classList.contains("popup_opened")) {
       closePopup(popup);
-    }
-    else if (evt.target.classList.contains("popup__close")) {
+    } else if (evt.target.classList.contains("popup__close")) {
       closePopup(popup);
     }
   });
@@ -157,7 +157,7 @@ formNewCardAdd.addEventListener("submit", function (evt) {
 
   const submitButton = handleValidation(formNewCardAdd);
   submitButton.disableSubmitButton();
-  
+
   formNewCardAdd.reset();
   closePopup(popupNewCard);
 });
