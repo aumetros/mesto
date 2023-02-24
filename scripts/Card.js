@@ -37,14 +37,15 @@ export default class Card {
     
     this._element.querySelector('.element__trash-button').addEventListener('click', this._handleDeleteCard);
 
-    this._element.querySelector('.element__foto').addEventListener('click', this._handleImageClick);   
+    this._elementFoto.addEventListener('click', this._handleImageClick);   
   }
 
   generateCard() {
     this._element = this._getTemplate();
+    this._elementFoto = this._element.querySelector('.element__foto');
 
-    this._element.querySelector('.element__foto').src = this._link;
-    this._element.querySelector('.element__foto').alt = this._name;
+    this._elementFoto.src = this._link;
+    this._elementFoto.alt = this._name;
     this._element.querySelector('.element__title').textContent = this._name;
 
     this._setEventListeners();
