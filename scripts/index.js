@@ -162,4 +162,4 @@ formNewCardAdd.addEventListener("submit", function (evt) {
   closePopup(popupNewCard);
 });
 
-export { openPopup, OpenImagePopup };
+export { OpenImagePopup };
