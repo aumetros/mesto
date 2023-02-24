@@ -41,8 +41,6 @@ const linkNewCardInput = formNewCardAdd.querySelector(".popup-newcard__input_typ
 
 const popupList = document.querySelectorAll(".popup");
 
-const newCardAddButton = formNewCardAdd.querySelector(".popup__new-card-button");
-
 const imagePopup = document.querySelector(".popup-image");
 const currentImage = imagePopup.querySelector(".popup-image__item");
 const currentImageSubtitle = imagePopup.querySelector(".popup-image__subtitle");
@@ -69,6 +67,16 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener("keydown", closePopupEsc);
+}
+
+//Функция открытия формы редактирования данных профайла
+function openProfileEditPopup() {
+  nameInput.value = nameProfile.innerText;
+  aboutInput.value = aboutProfile.innerText;
+  openPopup(popupProfile);
+
+  const validationItem = handleValidation(formProfileEdit);
+  validationItem.resetErrorInput();
 }
 
 // Функция отправки изменений данных профайла
@@ -127,21 +135,14 @@ popupList.forEach((popup) => {
     if (evt.target.classList.contains("popup_opened")) {
       closePopup(popup);
     }
-    if (evt.target.classList.contains("popup__close")) {
+    else if (evt.target.classList.contains("popup__close")) {
       closePopup(popup);
     }
   });
 });
 
 //Устанавливаем слушатель события на кнопку открытия формы редактирования профайла
-profileEditButton.addEventListener("click", () => {
-  nameInput.value = nameProfile.innerText;
-  aboutInput.value = aboutProfile.innerText;
-  openPopup(popupProfile);
-
-  const validationItem = handleValidation(formProfileEdit);
-  validationItem.resetErrorInput();
-});
+profileEditButton.addEventListener("click", openProfileEditPopup);
 
 //Устанавливаем событие на кнопку отправки новых данных профайла
 formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
