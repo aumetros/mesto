@@ -42,9 +42,17 @@ export default class FormValidator {
     });
   }
 
+  resetErrorInput() {
+    const errorInputList = this._form.querySelectorAll('.popup__input_type_error');
+    errorInputList.forEach((errorInput) => {
+      errorInput.textContent = '';
+      errorInput.classList.remove('popup__error_visible');
+    })
+  }
+
   enableValidation() {
     this._form.addEventListener('input', () => {
-    this._toggleButtonState();
+      this._toggleButtonState();
     })
 
     this._setEventListeners();

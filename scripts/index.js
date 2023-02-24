@@ -70,13 +70,13 @@ function closePopup(popup) {
 }
 
 //Функция очистки полей валидации, если окно было закрыто с ошибкой и вызвано снова
-function resetErrorInput(popup) {
-  const errorInputList = popup.querySelectorAll('.popup__input_type_error');
-  errorInputList.forEach((errorInput) => {
-    errorInput.textContent = '';
-    errorInput.classList.remove('popup__error_visible');
-  })
-}
+// function resetErrorInput(popup) {
+//   const errorInputList = popup.querySelectorAll('.popup__input_type_error');
+//   errorInputList.forEach((errorInput) => {
+//     errorInput.textContent = '';
+//     errorInput.classList.remove('popup__error_visible');
+//   })
+// }
 
 // Функция отправки изменений данных профайла
 function handleProfileFormSubmit(evt) {
@@ -86,15 +86,20 @@ function handleProfileFormSubmit(evt) {
   closePopup(popupProfile);
 }
 
+//Функция создания новой карточки
+function createNewCard(link, name) {
+  const card = new Card(link, name, '#card');
+  const newElement = card.generateCard();
+  return newElement;
+}
+
 //Функция добавления новой карточки в контейнер
-function addNewCard() {
+function handleCardFormSubmit() {
   const link = linkNewCardInput.value;
   const name = nameNewCardInput.value;
 
-  const card = new Card(link, name, '#card');
-  const newElement = card.generateCard();
-
-  cardsContainer.prepend(newElement);
+  const newCard = createNewCard(link, name);
+  cardsContainer.prepend(newCard);
 }
 
 //Функция очистки формы после добавления новой карточки или закрытия валидной
@@ -113,10 +118,8 @@ function OpenImagePopup(name, link) {
 
 //Создаем карточки из предварительного списка
 initialCards.forEach((item) => {
-  const card = new Card(item.link, item.name, '#card');
-  const cardElement = card.generateCard();
-
-  cardsContainer.append(cardElement);
+  const newCard = createNewCard(item.link, item.name);
+  cardsContainer.append(newCard);
 });
 
 //Устанавливаем валидацию на каждую форму
@@ -142,7 +145,9 @@ profileEditButton.addEventListener('click', () => {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
   openPopup(popupProfile);
-  resetErrorInput(popupProfile);
+
+  const validationDataFormProfileEdit = new FormValidator(configValidation, formProfileEdit);
+  validationDataFormProfileEdit.resetErrorInput();  
 });
 
 //Устанавливаем событие на кнопку отправки новых данных профайла
@@ -154,7 +159,7 @@ cardAddButton.addEventListener('click', () => openPopup(popupNewCard));
 //Устанавливаем событие на форму отправки новой карточки, блокируем кнопку отправки, очищаем форму и закрываем попап
 formNewCardAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  addNewCard();
+  handleCardFormSubmit();
   disableCardAddForm();
   formNewCardAdd.reset();
   closePopup(popupNewCard);
