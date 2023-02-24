@@ -95,12 +95,6 @@ function handleCardFormSubmit() {
   cardsContainer.prepend(newCard);
 }
 
-//Функция очистки формы после добавления новой карточки или закрытия валидной
-function disableCardAddForm() {
-  newCardAddButton.classList.add("popup__button_disabled");
-  newCardAddButton.setAttribute("disabled", "");
-}
-
 //Обработчик события при клике на картинку - открытие просмотра
 function OpenImagePopup(name, link) {
   currentImage.src = link;
@@ -159,7 +153,10 @@ cardAddButton.addEventListener("click", () => openPopup(popupNewCard));
 formNewCardAdd.addEventListener("submit", function (evt) {
   evt.preventDefault();
   handleCardFormSubmit();
-  disableCardAddForm();
+
+  const submitButton = handleValidation(formNewCardAdd);
+  submitButton.disableSubmitButton();
+  
   formNewCardAdd.reset();
   closePopup(popupNewCard);
 });

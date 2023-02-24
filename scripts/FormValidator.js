@@ -2,18 +2,23 @@ export default class FormValidator {
   constructor(config, form) {
     this._config = config;
     this._form = form;
-    this._buttonElement = this._form.querySelector(this._config.submitButtonSelector);
+    this._buttonElement = this._form.querySelector(
+      this._config.submitButtonSelector
+    );
   }
 
   _toggleButtonState() {
     const isFormValid = this._form.checkValidity();
     this._buttonElement.disabled = !isFormValid;
-    this._buttonElement.classList.toggle(this._config.inactiveButtonClass, !isFormValid);
+    this._buttonElement.classList.toggle(
+      this._config.inactiveButtonClass,
+      !isFormValid
+    );
   }
 
   _hideInputError(errorElement) {
     errorElement.classList.remove(this._config.errorClass);
-    errorElement.textContent = '';
+    errorElement.textContent = "";
   }
 
   _showInputError(errorElement, input) {
@@ -33,27 +38,36 @@ export default class FormValidator {
   }
 
   _setEventListeners() {
-    const inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
+    const inputList = Array.from(
+      this._form.querySelectorAll(this._config.inputSelector)
+    );
 
     inputList.forEach((item) => {
-      item.addEventListener('input', () => {
+      item.addEventListener("input", () => {
         this._checkInputValidity(item);
       });
     });
   }
 
+  disableSubmitButton() {
+    this._buttonElement.classList.add("popup__button_disabled");
+    this._buttonElement.setAttribute("disabled", "");
+  }
+
   resetErrorInput() {
-    const errorInputList = this._form.querySelectorAll('.popup__input_type_error');
+    const errorInputList = this._form.querySelectorAll(
+      ".popup__input_type_error"
+    );
     errorInputList.forEach((errorInput) => {
-      errorInput.textContent = '';
-      errorInput.classList.remove('popup__error_visible');
-    })
+      errorInput.textContent = "";
+      errorInput.classList.remove("popup__error_visible");
+    });
   }
 
   enableValidation() {
-    this._form.addEventListener('input', () => {
+    this._form.addEventListener("input", () => {
       this._toggleButtonState();
-    })
+    });
 
     this._setEventListeners();
   }
