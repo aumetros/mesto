@@ -45,11 +45,7 @@ const imagePopup = document.querySelector(".popup-image");
 const currentImage = imagePopup.querySelector(".popup-image__item");
 const currentImageSubtitle = imagePopup.querySelector(".popup-image__subtitle");
 
-const formList = Array.from(
-  document.querySelectorAll(configValidation.formSelector)
-);
-
-//Создаем экземпляр валидация формы каждого попа для обращения к публичным методам
+//Создаем экземпляр валидации формы каждого попа для обращения к публичным методам
 const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
 const formCardSubmitValidator = new FormValidator(configValidation, formNewCardAdd);
 
@@ -122,10 +118,8 @@ initialCards.forEach((item) => {
 });
 
 //Устанавливаем валидацию на каждую форму
-formList.forEach((form) => {
-  const validationData = new FormValidator(configValidation, form);
-  validationData.enableValidation();
-});
+formProfileEditValidator.enableValidation();
+formCardSubmitValidator.enableValidation();
 
 //Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
 popupList.forEach((popup) => {
