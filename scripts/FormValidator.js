@@ -51,12 +51,12 @@ export default class FormValidator {
   }
 
   disableSubmitButton() {
-    this._buttonElement.classList.add("popup__button_disabled");
+    this._buttonElement.classList.add(this._config.inactiveButtonClass);
     this._buttonElement.setAttribute("disabled", "");
   }
 
   resetErrorInput() {
-    const errorInputList = this._form.querySelectorAll(".popup__input_type_error");
+    const errorInputList = this._form.querySelectorAll(`.${this._config.inputErrorClass}`);
     errorInputList.forEach((errorInput) => {
       this._hideInputError(errorInput);      
     });
