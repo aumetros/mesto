@@ -111,7 +111,7 @@ initialCards.forEach((item) => {
 });
 
 //Обработчик события при клике на картинку - открытие просмотра
-function OpenImagePopup(name, link) {
+function openImagePopup(name, link) {
   currentImage.src = link;
   currentImage.alt = name;
   currentImageSubtitle.textContent = name;
@@ -162,4 +162,4 @@ formNewCardAdd.addEventListener("submit", function (evt) {
   closePopup(popupNewCard);
 });
 
-export { OpenImagePopup };
+export { openImagePopup };

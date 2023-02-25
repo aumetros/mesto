@@ -1,4 +1,4 @@
-import {OpenImagePopup} from "./index.js";
+import {openImagePopup} from "./index.js";
 
 export default class Card {
   constructor(data, templateSelector) {
@@ -28,7 +28,7 @@ export default class Card {
   _handleImageClick(evt) {
     const name = evt.target.alt;
     const link = evt.target.src;
-    OpenImagePopup(name, link);
+    openImagePopup(name, link);
   }
 
   _setEventListeners() {
