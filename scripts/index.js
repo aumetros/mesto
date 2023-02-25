@@ -49,6 +49,10 @@ const formList = Array.from(
   document.querySelectorAll(configValidation.formSelector)
 );
 
+//Создаем экземпляр валидация формы каждого попа для обращения к публичным методам
+const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
+const formCardSubmitValidator = new FormValidator(configValidation, formNewCardAdd);
+
 //Функция закрытия попапа при нажатии Esc
 function closePopupEsc(evt) {
   if (evt.key === "Escape") {
@@ -75,8 +79,7 @@ function openProfileEditPopup() {
   aboutInput.value = aboutProfile.innerText;
   openPopup(popupProfile);
 
-  const validationItem = handleValidation(formProfileEdit);
-  validationItem.resetErrorInput();
+  formProfileEditValidator.resetErrorInput();
 }
 
 // Функция отправки изменений данных профайла
@@ -104,30 +107,24 @@ function handleCardFormSubmit() {
   cardsContainer.prepend(newCard);
 }
 
-//Создаем карточки из предварительного списка
-initialCards.forEach((item) => {
-  const newCard = createNewCard(item);
-  cardsContainer.append(newCard);
-});
-
 //Обработчик события при клике на картинку - открытие просмотра
-function OpenImagePopup(name, link) {
+function openImagePopup(name, link) {
   currentImage.src = link;
   currentImage.alt = name;
   currentImageSubtitle.textContent = name;
   openPopup(imagePopup);
 }
 
-//Функция валидации формы
-function handleValidation(form) {
-  const validationData = new FormValidator(configValidation, form);
-  return validationData;
-}
+//Создаем карточки из предварительного списка
+initialCards.forEach((item) => {
+  const newCard = createNewCard(item);
+  cardsContainer.append(newCard);
+});
 
 //Устанавливаем валидацию на каждую форму
 formList.forEach((form) => {
-  const validationItem = handleValidation(form);
-  validationItem.enableValidation();
+  const validationData = new FormValidator(configValidation, form);
+  validationData.enableValidation();
 });
 
 //Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
@@ -154,12 +151,11 @@ cardAddButton.addEventListener("click", () => openPopup(popupNewCard));
 formNewCardAdd.addEventListener("submit", function (evt) {
   evt.preventDefault();
   handleCardFormSubmit();
-
-  const submitButton = handleValidation(formNewCardAdd);
-  submitButton.disableSubmitButton();
+  
+  formCardSubmitValidator.disableSubmitButton();
 
   formNewCardAdd.reset();
   closePopup(popupNewCard);
 });
 
-export { OpenImagePopup };
+export { openImagePopup };
