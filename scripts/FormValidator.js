@@ -56,12 +56,9 @@ export default class FormValidator {
   }
 
   resetErrorInput() {
-    const errorInputList = this._form.querySelectorAll(
-      ".popup__input_type_error"
-    );
+    const errorInputList = this._form.querySelectorAll(".popup__input_type_error");
     errorInputList.forEach((errorInput) => {
-      errorInput.textContent = "";
-      errorInput.classList.remove("popup__error_visible");
+      this._hideInputError(errorInput);      
     });
   }
 
