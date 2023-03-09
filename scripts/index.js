@@ -2,6 +2,7 @@
 import Card from "./Card.js";
 import { initialCards } from "./initialCards.js";
 import FormValidator from "./FormValidator.js";
+import Section from "./Section.js";
 
 //Конфигуратор селекторов и классов для валидации форм
 const configValidation = {
@@ -12,6 +13,8 @@ const configValidation = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
+
+const containerSelector = '.elements';
 
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы редактирования профайла
 const profile = document.querySelector(".profile");
@@ -111,11 +114,18 @@ function openImagePopup(name, link) {
   openPopup(imagePopup);
 }
 
-//Создаем карточки из предварительного списка
-initialCards.forEach((item) => {
-  const newCard = createNewCard(item);
-  cardsContainer.append(newCard);
-});
+/**Добавляем на страницу карточки по умолчанию */
+const defaultCardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, "#card");
+    const cardElement = card.generateCard();
+    defaultCardList.addItem(cardElement);
+  }
+}, containerSelector);
+
+defaultCardList.renderItems();
+
 
 //Устанавливаем валидацию на каждую форму
 formProfileEditValidator.enableValidation();
