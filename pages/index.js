@@ -1,17 +1,21 @@
-/**Импортируем переменные*/
-import { 
+/**Импортируем переменные */
+import {
   containerSelector,
-  popupProfileSelector
+  popupProfileSelector,
+  popupWithImageSelector,
+  currentImage,
+  currentImageSubtitle
 } from "../scripts/utils/constants.js";
 
-//Импортируем модули карточки, готовых карточек и валидации форм.
+/**Импортируем модули карточки, готовых карточек и валидации форм. */
 import { initialCards } from "../scripts/components/initialCards.js";
 import Card from "../scripts/components/Card.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
 import Popup from "../scripts/components/Popup.js";
+import PopupWithImage from "../scripts/components/PopupWithImage.js";
 
-//Конфигуратор селекторов и классов для валидации форм
+/**Конфигуратор селекторов и классов для валидации форм */
 const configValidation = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -47,20 +51,29 @@ const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add
 const nameNewCardInput = formNewCardAdd.querySelector(".popup-newcard__input_type_name");
 const linkNewCardInput = formNewCardAdd.querySelector(".popup-newcard__input_type_link");
 
-const popupList = document.querySelectorAll(".popup");
-
-const imagePopup = document.querySelector(".popup-image");
-const currentImage = imagePopup.querySelector(".popup-image__item");
-const currentImageSubtitle = imagePopup.querySelector(".popup-image__subtitle");
-
-//Создаем экземпляр валидации формы каждого попа для обращения к публичным методам
-const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
-const formCardSubmitValidator = new FormValidator(configValidation, formNewCardAdd);
-
-/**Создаем экземпляры попапов*/
+/**Создаем экземпляры попапов */
 const popupProfileClass = new Popup(popupProfileSelector);
 
-/**Функция открытия формы редактирования данных профайла*/
+const popupWithImageClass = new PopupWithImage(popupWithImageSelector, {
+  fillImagePopup: (name, link) => {
+    currentImage.src = link;
+    currentImage.alt = name;
+    currentImageSubtitle.textContent = name;
+  },
+});
+
+/**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
+const formProfileEditValidator = new FormValidator(
+  configValidation,
+  formProfileEdit
+);
+
+const formCardSubmitValidator = new FormValidator(
+  configValidation,
+  formNewCardAdd
+);
+
+/**Функция открытия формы редактирования данных профайла */
 function openProfileEditPopup() {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
@@ -71,6 +84,7 @@ function openProfileEditPopup() {
 
 /**Устанавливаем слушатели на попапы */
 popupProfileClass.setEventListeners();
+popupWithImageClass.setEventListeners();
 
 // Функция отправки изменений данных профайла
 function handleProfileFormSubmit(evt) {
@@ -99,38 +113,26 @@ function handleCardFormSubmit() {
 
 //Обработчик события при клике на картинку - открытие просмотра
 function openImagePopup(name, link) {
-  currentImage.src = link;
-  currentImage.alt = name;
-  currentImageSubtitle.textContent = name;
-  openPopup(imagePopup);
+  popupWithImageClass.open(name, link);
 }
 
 /**Добавляем на страницу карточки по умолчанию */
-const defaultCardList = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const card = new Card(item, "#card");
-    const cardElement = card.generateCard();
-    defaultCardList.addItem(cardElement);
-  }
-}, containerSelector);
+const defaultCardList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const cardElement = createNewCard(item);
+      defaultCardList.addItem(cardElement);
+    },
+  },
+  containerSelector
+);
 
 defaultCardList.renderItems();
 
 //Устанавливаем валидацию на каждую форму
 formProfileEditValidator.enableValidation();
 formCardSubmitValidator.enableValidation();
-
-//Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
-// popupList.forEach((popup) => {
-//   popup.addEventListener("mousedown", (evt) => {
-//     if (evt.target.classList.contains("popup_opened")) {
-//       closePopup(popup);
-//     } else if (evt.target.classList.contains("popup__close")) {
-//       closePopup(popup);
-//     }
-//   });
-// });
 
 //Устанавливаем слушатель события на кнопку открытия формы редактирования профайла
 profileEditButton.addEventListener("click", openProfileEditPopup);
@@ -145,7 +147,7 @@ cardAddButton.addEventListener("click", () => openPopup(popupNewCard));
 formNewCardAdd.addEventListener("submit", function (evt) {
   evt.preventDefault();
   handleCardFormSubmit();
-  
+
   formCardSubmitValidator.disableSubmitButton();
 
   formNewCardAdd.reset();
