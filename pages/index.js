@@ -1,10 +1,15 @@
 /**Импортируем переменные*/
+import { 
+  containerSelector,
+  popupProfileSelector
+} from "../scripts/utils/constants.js";
 
 //Импортируем модули карточки, готовых карточек и валидации форм.
-import Card from "../scripts/components/Card.js";
 import { initialCards } from "../scripts/components/initialCards.js";
+import Card from "../scripts/components/Card.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
+import Popup from "../scripts/components/Popup.js";
 
 //Конфигуратор селекторов и классов для валидации форм
 const configValidation = {
@@ -15,8 +20,6 @@ const configValidation = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
-
-const containerSelector = '.elements';
 
 // Выбираем элементы DOM - Кнопки открытия и закрытия формы редактирования профайла
 const profile = document.querySelector(".profile");
@@ -54,34 +57,20 @@ const currentImageSubtitle = imagePopup.querySelector(".popup-image__subtitle");
 const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
 const formCardSubmitValidator = new FormValidator(configValidation, formNewCardAdd);
 
-//Функция закрытия попапа при нажатии Esc
-function closePopupEsc(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_opened");
-    closePopup(openedPopup);
-  }
-}
+/**Создаем экземпляры попапов*/
+const popupProfileClass = new Popup(popupProfileSelector);
 
-//Функция открытия попапа и установки слушателя Esc
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", closePopupEsc);
-}
-
-//Функция закрытия попапа и снятия слушателя Esc
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", closePopupEsc);
-}
-
-//Функция открытия формы редактирования данных профайла
+/**Функция открытия формы редактирования данных профайла*/
 function openProfileEditPopup() {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
-  openPopup(popupProfile);
+  popupProfileClass.open();
 
   formProfileEditValidator.resetErrorInput();
 }
+
+/**Устанавливаем слушатели на попапы */
+popupProfileClass.setEventListeners();
 
 // Функция отправки изменений данных профайла
 function handleProfileFormSubmit(evt) {
@@ -128,21 +117,20 @@ const defaultCardList = new Section({
 
 defaultCardList.renderItems();
 
-
 //Устанавливаем валидацию на каждую форму
 formProfileEditValidator.enableValidation();
 formCardSubmitValidator.enableValidation();
 
 //Устанавливаем для каждого попапа слушатели клика по оверлею и кнопке закрытия
-popupList.forEach((popup) => {
-  popup.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("popup_opened")) {
-      closePopup(popup);
-    } else if (evt.target.classList.contains("popup__close")) {
-      closePopup(popup);
-    }
-  });
-});
+// popupList.forEach((popup) => {
+//   popup.addEventListener("mousedown", (evt) => {
+//     if (evt.target.classList.contains("popup_opened")) {
+//       closePopup(popup);
+//     } else if (evt.target.classList.contains("popup__close")) {
+//       closePopup(popup);
+//     }
+//   });
+// });
 
 //Устанавливаем слушатель события на кнопку открытия формы редактирования профайла
 profileEditButton.addEventListener("click", openProfileEditPopup);
