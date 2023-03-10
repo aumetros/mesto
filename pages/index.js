@@ -1,8 +1,10 @@
+/**Импортируем переменные*/
+
 //Импортируем модули карточки, готовых карточек и валидации форм.
-import Card from "./Card.js";
-import { initialCards } from "./initialCards.js";
-import FormValidator from "./FormValidator.js";
-import Section from "./Section.js";
+import Card from "../scripts/components/Card.js";
+import { initialCards } from "../scripts/components/initialCards.js";
+import FormValidator from "../scripts/components/FormValidator.js";
+import Section from "../scripts/components/Section.js";
 
 //Конфигуратор селекторов и классов для валидации форм
 const configValidation = {
