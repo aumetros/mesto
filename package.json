@@ -1,0 +1,11 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Данный проект представляет собой личную страницу путешественника.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aleksey Shevlyakov",
+  "license": "ISC"
+}
