@@ -51,19 +51,20 @@ const popupNewCard = document.querySelector(".popup-newcard");
 const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
 
 /**Создаем экземпляры попапов */
-const popupProfileClass = new Popup(popupProfileSelector);
-
-const popupWithImageClass = new PopupWithImage(popupWithImageSelector, {
-  fillImagePopup: (name, link) => {
-    currentImage.src = link;
-    currentImage.alt = name;
-    currentImageSubtitle.textContent = name;
+const popupProfileEdit = new PopupWithForm('.popup-profile', {
+  formSubmit: () => {
+    const data = popupProfileEdit._getInputValues();
+    nameProfile.textContent = data.name;
+    aboutProfile.textContent = data.about;
   },
+  resetValidation: () => {
+    formProfileEditValidator.resetErrorInput();
+  }
 });
 
-const popupAddCard = new PopupWithForm(popupAddNewCardSelector, {
+const popupCardSubmit = new PopupWithForm(popupAddNewCardSelector, {
   formSubmit: () => {
-    const data = popupAddCard._getInputValues();
+    const data = popupCardSubmit._getInputValues();
     const newCard = createNewCard(data);
     cardsContainer.prepend(newCard);
   },
@@ -71,6 +72,14 @@ const popupAddCard = new PopupWithForm(popupAddNewCardSelector, {
     formCardSubmitValidator.resetErrorInput();
     formCardSubmitValidator.disableSubmitButton();
   }
+});
+
+const popupWithImageClass = new PopupWithImage(popupWithImageSelector, {
+  fillImagePopup: (name, link) => {
+    currentImage.src = link;
+    currentImage.alt = name;
+    currentImageSubtitle.textContent = name;
+  },
 });
 
 /**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
@@ -88,23 +97,18 @@ const formCardSubmitValidator = new FormValidator(
 function openProfileEditPopup() {
   nameInput.value = nameProfile.innerText;
   aboutInput.value = aboutProfile.innerText;
-  popupProfileClass.open();
+  popupProfileEdit.open()
+  
 
   formProfileEditValidator.resetErrorInput();
 }
 
 /**Устанавливаем слушатели на попапы */
-popupProfileClass.setEventListeners();
+popupProfileEdit.setEventListeners();
 popupWithImageClass.setEventListeners();
-popupAddCard.setEventListeners();
+popupCardSubmit.setEventListeners();
 
-// Функция отправки изменений данных профайла
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  nameProfile.textContent = nameInput.value;
-  aboutProfile.textContent = aboutInput.value;
-  closePopup(popupProfile);
-}
+
 
 //Функция создания новой карточки
 function createNewCard(data) {
@@ -139,10 +143,10 @@ formCardSubmitValidator.enableValidation();
 //Устанавливаем слушатель события на кнопку открытия формы редактирования профайла
 profileEditButton.addEventListener("click", openProfileEditPopup);
 
-//Устанавливаем событие на кнопку отправки новых данных профайла
-formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
+// //Устанавливаем событие на кнопку отправки новых данных профайла
+// formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
 
 //Устанавливаем событие на кнопку открытия формы добавления карты
-cardAddButton.addEventListener("click", () => popupAddCard.open());
+cardAddButton.addEventListener("click", () => popupCardSubmit.open());
 
 export { openImagePopup };
