@@ -2,6 +2,7 @@
 const containerSelector = '.elements';
 const popupProfileSelector = '.popup-profile';
 const popupWithImageSelector = '.popup-image';
+const popupAddNewCardSelector = '.popup-newcard';
 
 /**DOM элементы*/
 const imagePopup = document.querySelector(".popup-image");
@@ -12,6 +13,7 @@ export {
   containerSelector,
   popupProfileSelector,
   popupWithImageSelector,
+  popupAddNewCardSelector,
   currentImage,
   currentImageSubtitle
 }

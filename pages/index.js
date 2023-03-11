@@ -3,6 +3,7 @@ import {
   containerSelector,
   popupProfileSelector,
   popupWithImageSelector,
+  popupAddNewCardSelector,
   currentImage,
   currentImageSubtitle
 } from "../scripts/utils/constants.js";
@@ -14,6 +15,7 @@ import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
 import Popup from "../scripts/components/Popup.js";
 import PopupWithImage from "../scripts/components/PopupWithImage.js";
+import PopupWithForm from "../scripts/components/popupWithForm.js";
 
 /**Конфигуратор селекторов и классов для валидации форм */
 const configValidation = {
@@ -48,9 +50,6 @@ const cardAddButton = profile.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup-newcard");
 const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
 
-const nameNewCardInput = formNewCardAdd.querySelector(".popup-newcard__input_type_name");
-const linkNewCardInput = formNewCardAdd.querySelector(".popup-newcard__input_type_link");
-
 /**Создаем экземпляры попапов */
 const popupProfileClass = new Popup(popupProfileSelector);
 
@@ -60,6 +59,18 @@ const popupWithImageClass = new PopupWithImage(popupWithImageSelector, {
     currentImage.alt = name;
     currentImageSubtitle.textContent = name;
   },
+});
+
+const popupAddCard = new PopupWithForm(popupAddNewCardSelector, {
+  formSubmit: () => {
+    const data = popupAddCard._getInputValues();
+    const newCard = createNewCard(data);
+    cardsContainer.prepend(newCard);
+  },
+  resetValidation: () => {
+    formCardSubmitValidator.resetErrorInput();
+    formCardSubmitValidator.disableSubmitButton();
+  }
 });
 
 /**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
@@ -85,6 +96,7 @@ function openProfileEditPopup() {
 /**Устанавливаем слушатели на попапы */
 popupProfileClass.setEventListeners();
 popupWithImageClass.setEventListeners();
+popupAddCard.setEventListeners();
 
 // Функция отправки изменений данных профайла
 function handleProfileFormSubmit(evt) {
@@ -99,16 +111,6 @@ function createNewCard(data) {
   const card = new Card(data, "#card");
   const newElement = card.generateCard();
   return newElement;
-}
-
-//Функция добавления новой карточки в контейнер
-function handleCardFormSubmit() {
-  const data = {};
-  data.link = linkNewCardInput.value;
-  data.name = nameNewCardInput.value;
-
-  const newCard = createNewCard(data);
-  cardsContainer.prepend(newCard);
 }
 
 //Обработчик события при клике на картинку - открытие просмотра
@@ -141,17 +143,6 @@ profileEditButton.addEventListener("click", openProfileEditPopup);
 formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
 
 //Устанавливаем событие на кнопку открытия формы добавления карты
-cardAddButton.addEventListener("click", () => openPopup(popupNewCard));
-
-//Устанавливаем событие на форму отправки новой карточки, блокируем кнопку отправки, очищаем форму и закрываем попап
-formNewCardAdd.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-  handleCardFormSubmit();
-
-  formCardSubmitValidator.disableSubmitButton();
-
-  formNewCardAdd.reset();
-  closePopup(popupNewCard);
-});
+cardAddButton.addEventListener("click", () => popupAddCard.open());
 
 export { openImagePopup };
