@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto Russia</title>
 </head>
 
@@ -15,7 +14,7 @@
 
     <header class="header">
 
-      <img src="./images/mesto-logo.svg" class="header__logo" alt="Логотип сайта Mesto Russia">
+      <img src="<%=require('./images/mesto-logo.svg')%>" class="header__logo" alt="Логотип сайта Mesto Russia">
 
       <div class="header__line"></div>
 
@@ -25,7 +24,7 @@
 
       <section class="profile">
 
-        <img src="./images/avatar.png" class="profile__avatar" alt="Фотография Жак-Ив Кусто в красной шапочке">
+        <img src="<%=require('./images/avatar.png')%>" class="profile__avatar" alt="Фотография Жак-Ив Кусто в красной шапочке">
 
         <div class="profile__info">
 

@@ -1,3 +1,6 @@
+/**Импортируем css-файл для webpack */
+import "../pages/index.css";
+
 /**Импортируем модули карточки, готовых карточек и валидации форм. */
 import { initialCards } from "../scripts/components/initialCards.js";
 import Card from "../scripts/components/Card.js";
