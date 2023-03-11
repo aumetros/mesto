@@ -4,8 +4,15 @@
   "description": "Данный проект представляет собой личную страницу путешественника.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rd /s /q dist && webpack --mode production",
+    "dev": "webpack serve"
   },
   "author": "Aleksey Shevlyakov",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
 }
