@@ -105,16 +105,17 @@ popupProfileEdit.setEventListeners();
 popupCardSubmit.setEventListeners();
 popupWithImage.setEventListeners();
 
-//Функция создания новой карточки
+/**Функция создания новой карточки */
 function createNewCard(data) {
-  const card = new Card(data, "#card");
+  const card = new Card(data, "#card", {
+    handleCardClick: (evt) =>{
+      const name = evt.target.alt;
+      const link = evt.target.src;
+      popupWithImage.open(name, link);
+    }
+   });
   const newElement = card.generateCard();
   return newElement;
-}
-
-//Обработчик события при клике на картинку - открытие просмотра
-function openImagePopup(name, link) {
-  popupWithImage.open(name, link);
 }
 
 /**Добавляем на страницу карточки по умолчанию */
@@ -140,5 +141,3 @@ profileEditButton.addEventListener("click", () => openProfileEditPopup());
 
 //Устанавливаем событие на кнопку открытия формы добавления карты
 cardAddButton.addEventListener("click", () => popupCardSubmit.open());
-
-export { openImagePopup };
