@@ -56,9 +56,11 @@ export default class FormValidator {
   }
 
   resetErrorInput() {
-    const errorInputList = this._form.querySelectorAll(`.${this._config.inputErrorClass}`);
+    const errorInputList = this._form.querySelectorAll(
+      `.${this._config.inputErrorClass}`
+    );
     errorInputList.forEach((errorInput) => {
-      this._hideInputError(errorInput);      
+      this._hideInputError(errorInput);
     });
   }
 
