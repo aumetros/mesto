@@ -105,7 +105,6 @@ function openProfileEditPopup() {
   const userData = userInfo.getUserInfo();
   nameInput.value = userData.name;
   aboutInput.value = userData.about;
-  formProfileEditValidator.resetErrorInput();
   popupProfileEdit.open();
 }
 
