@@ -29,15 +29,11 @@ const cardsContainer = document.querySelector(".elements");
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
 const nameInput = popupProfile.querySelector(".popup-profile__input_type_name");
-const aboutInput = popupProfile.querySelector(
-  ".popup-profile__input_type_about"
-);
+const aboutInput = popupProfile.querySelector(".popup-profile__input_type_about");
 const formProfileEdit = popupProfile.querySelector(".popup__form-profile-edit");
 
 const popupNewCard = document.querySelector(".popup-newcard");
-const formNewCardAdd = popupNewCard.querySelector(
-  ".popup-newcard__form-card-add"
-);
+const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
 
 const popupImage = document.querySelector(".popup-image");
 const currentImage = popupImage.querySelector(".popup-image__item");
