@@ -73,13 +73,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
   },
 });
 
-const popupWithImage = new PopupWithImage(".popup-image", {
-  fillImagePopup: (name, link) => {
-    currentImage.src = link;
-    currentImage.alt = name;
-    currentImageSubtitle.textContent = name;
-  },
-});
+const popupWithImage = new PopupWithImage(".popup-image");
 
 /**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
 const formProfileEditValidator = new FormValidator(

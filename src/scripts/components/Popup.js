@@ -7,7 +7,7 @@ export default class Popup {
     if (evt.key === "Escape") {
       this.close();
     }
-  }
+  };
 
   open() {
     this._popup.classList.add("popup_opened");
