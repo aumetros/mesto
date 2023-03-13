@@ -2,7 +2,7 @@
 import "../pages/index.css";
 
 /**Импортируем модули карточки, готовых карточек и валидации форм. */
-import { initialCards } from "../scripts/components/initialCards.js";
+import { initialCards } from "../scripts/utils/initialCards.js";
 import Card from "../scripts/components/Card.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
@@ -24,7 +24,6 @@ const configValidation = {
 const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
-const cardsContainer = document.querySelector(".elements");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -34,10 +33,6 @@ const formProfileEdit = popupProfile.querySelector(".popup__form-profile-edit");
 
 const popupNewCard = document.querySelector(".popup-newcard");
 const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
-
-const popupImage = document.querySelector(".popup-image");
-const currentImage = popupImage.querySelector(".popup-image__item");
-const currentImageSubtitle = popupImage.querySelector(".popup-image__subtitle");
 
 /**Функция создания новой карточки */
 function createNewCard(data) {
