@@ -65,7 +65,7 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
 const popupCardSubmit = new PopupWithForm(".popup-newcard", {
   formSubmit: (data) => {
     const newCard = createNewCard(data);
-    cardsContainer.prepend(newCard);
+    defaultCardList.addItem(newCard);
   },
   resetValidation: () => {
     formCardSubmitValidator.resetErrorInput();
