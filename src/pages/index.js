@@ -49,7 +49,7 @@ function createNewCard(data) {
 
 /**Создаем экземпляры попапов */
 const popupProfileEdit = new PopupWithForm(".popup-profile", {
-  formSubmit: (data) => {    
+  submitForm: (data) => {    
     userInfo.setUserInfo(data);
   },
   resetValidation: () => {
@@ -58,7 +58,7 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
 });
 
 const popupCardSubmit = new PopupWithForm(".popup-newcard", {
-  formSubmit: (data) => {
+  submitForm: (data) => {
     const newCard = createNewCard(data);
     defaultCardList.addItem(newCard);
   },
