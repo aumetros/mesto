@@ -123,3 +123,14 @@ profileEditButton.addEventListener("click", openProfileEditPopup);
 
 /**Устанавливаем событие на кнопку открытия формы добавления карты */
 newCardAddButton.addEventListener("click", () => popupCardSubmit.open());
+
+
+fetch('https://nomoreparties.co/v1/cohort-62/users/me', {
+  headers: {
+    authorization: '6ba72a3f-7eee-48cb-8d60-730e6585ad7a'
+  }
+})
+.then((res) => res.json())
+.then((result) => {
+  console.log(result);
+});
