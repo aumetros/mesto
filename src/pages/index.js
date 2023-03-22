@@ -9,6 +9,18 @@ import Section from "../scripts/components/Section.js";
 import PopupWithImage from "../scripts/components/PopupWithImage.js";
 import PopupWithForm from "../scripts/components/popupWithForm.js";
 import UserInfo from "../scripts/components/UserInfo.js";
+import Api from "../scripts/components/Api.js";
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-62',
+  headers: {
+    authorization: '6ba72a3f-7eee-48cb-8d60-730e6585ad7a',
+    'Content-Type': 'application/json'
+  }
+});
+
+
+api.getUserInfo();
 
 /**Конфигуратор селекторов и классов для валидации форм */
 const configValidation = {
@@ -123,14 +135,3 @@ profileEditButton.addEventListener("click", openProfileEditPopup);
 
 /**Устанавливаем событие на кнопку открытия формы добавления карты */
 newCardAddButton.addEventListener("click", () => popupCardSubmit.open());
-
-
-fetch('https://nomoreparties.co/v1/cohort-62/users/me', {
-  headers: {
-    authorization: '6ba72a3f-7eee-48cb-8d60-730e6585ad7a'
-  }
-})
-.then((res) => res.json())
-.then((result) => {
-  console.log(result);
-});
