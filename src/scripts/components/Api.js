@@ -5,27 +5,13 @@ export default class Api {
   }
 
   getUserInfo() {
-    fetch(`${this.baseUrl}/users/me`, {
-      headers: this.headers
-    })
-    .then(res => res.json())
-    .then ((result) => {
-      console.log(result);
-    })
-  }
-
-  test() {
-    console.log(this.baseUrl);
-    console.log(this.headers);
+    return fetch(`${this.baseUrl}/users/me`, {
+      headers: this.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 }
-
-// fetch("https://nomoreparties.co/v1/cohort-62/users/me", {
-//   headers: {
-//     authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a",
-//   }
-// })
-//   .then((res) => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   });

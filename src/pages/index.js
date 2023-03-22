@@ -11,17 +11,6 @@ import PopupWithForm from "../scripts/components/popupWithForm.js";
 import UserInfo from "../scripts/components/UserInfo.js";
 import Api from "../scripts/components/Api.js";
 
-const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/cohort-62',
-  headers: {
-    authorization: '6ba72a3f-7eee-48cb-8d60-730e6585ad7a',
-    'Content-Type': 'application/json'
-  }
-});
-
-
-api.getUserInfo();
-
 /**Конфигуратор селекторов и классов для валидации форм */
 const configValidation = {
   formSelector: ".popup__form",
@@ -36,15 +25,44 @@ const configValidation = {
 const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
+const userAvatar = profile.querySelector(".profile__avatar");
+const userName = profile.querySelector(".profile__name");
+const userAbout = profile.querySelector(".profile__about");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
 const nameInput = popupProfile.querySelector(".popup-profile__input_type_name");
-const aboutInput = popupProfile.querySelector(".popup-profile__input_type_about");
+const aboutInput = popupProfile.querySelector(
+  ".popup-profile__input_type_about"
+);
 const formProfileEdit = popupProfile.querySelector(".popup__form-profile-edit");
 
 const popupNewCard = document.querySelector(".popup-newcard");
-const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
+const formNewCardAdd = popupNewCard.querySelector(
+  ".popup-newcard__form-card-add"
+);
+
+
+/** Создаем экземпляр класса для работы с API*/
+const api = new Api({
+  baseUrl: "https://nomoreparties.co/v1/cohort-62",
+  headers: {
+    authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a",
+    "Content-Type": "application/json",
+  },
+});
+
+/**Загружаем данные пользователя с сервера */
+api
+  .getUserInfo()
+  .then((user) => {
+    userAvatar.src = user.avatar;
+    userName.textContent = user.name;
+    userAbout.textContent = user.about;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 /**Функция создания новой карточки */
 function createNewCard(data) {
@@ -61,7 +79,7 @@ function createNewCard(data) {
 
 /**Создаем экземпляры попапов */
 const popupProfileEdit = new PopupWithForm(".popup-profile", {
-  submitForm: (data) => {    
+  submitForm: (data) => {
     userInfo.setUserInfo(data);
   },
   resetValidation: () => {
