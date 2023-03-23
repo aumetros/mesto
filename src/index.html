@@ -24,7 +24,8 @@
 
       <section class="profile">
 
-        <img src="<%=require('./images/avatar.png')%>" class="profile__avatar" alt="Фотография Жак-Ив Кусто в красной шапочке">
+        <img src="<%=require('./images/avatar.png')%>" class="profile__avatar"
+          alt="Фотография Жак-Ив Кусто в красной шапочке">
 
         <div class="profile__info">
 
@@ -129,6 +130,24 @@
 
     </section>
 
+    <!--Поп-ап подтверждения удаления карточки-->
+    <section class="popup-confirm-delete popup">
+
+      <div class="popup-confirm-delete__container">
+
+        <form class="popup-confirm-delete__form">
+          <p class="popup-confirm-delete__title">Вы уверены?</p>
+          <button class="popup__button popup__confirm-delete-button" type="submit">Да</button>
+        </form>
+
+        <button class="popup__close" type="button"></button>
+
+      </div>
+
+
+    </section>
+
+
   </div>
 
   <!--Секция template-->
@@ -142,9 +161,9 @@
       <div class="element__description">
         <p class="element__title"></p>
         <div class="element__like-container">
-        <button class="element__like-button" type="button"></button>
-        <span class="element__like-counter"></span>
-      </div>
+          <button class="element__like-button" type="button"></button>
+          <span class="element__like-counter"></span>
+        </div>
       </div>
 
       <button class="element__trash-button" type="button"></button>
