@@ -1,12 +1,15 @@
 export default class Api {
   constructor({ baseUrl, headers }) {
-    this.baseUrl = baseUrl;
-    this.headers = headers;
+    this._baseUrl = baseUrl;
+    // this._headers = headers;
+    this._id = headers.authorization;
   }
 
   getUserInfo() {
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        authorization: this._id,
+      },
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -16,8 +19,10 @@ export default class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`, {
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: {
+        authorization: this._id,
+      },
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -27,13 +32,16 @@ export default class Api {
   }
 
   editProfile(data) {
-    return fetch(`${this.baseUrl}/users/me`, {
-      method: 'PATCH',
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._id,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: data.name,
-        about: data.about
-      })
+        about: data.about,
+      }),
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -43,13 +51,16 @@ export default class Api {
   }
 
   addNewCard(data) {
-    return fetch(`${this.baseUrl}/cards`, {
-      method: 'POST',
-      headers: this.headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "POST",
+      headers: {
+        authorization: this._id,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: data.name,
-        link: data.link
-      })
+        link: data.link,
+      }),
     }).then((res) => {
       if (res.ok) {
         return res.json();

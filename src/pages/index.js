@@ -47,8 +47,7 @@ const formNewCardAdd = popupNewCard.querySelector(
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort-62",
   headers: {
-    authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a",
-    "Content-Type": "application/json",
+    authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a"
   },
 });
 
