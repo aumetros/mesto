@@ -16,7 +16,7 @@ export default class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`,{
+    return fetch(`${this.baseUrl}/cards`, {
       headers: this.headers,
     }).then((res) => {
       if (res.ok) {
@@ -26,6 +26,19 @@ export default class Api {
     });
   }
 
-
-
+  editProfile(data) {
+    return fetch(`${this.baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about
+      })
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
 }

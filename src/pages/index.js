@@ -67,7 +67,14 @@ function createNewCard(data) {
 /**Создаем экземпляры попапов */
 const popupProfileEdit = new PopupWithForm(".popup-profile", {
   submitForm: (data) => {
-    userInfo.setUserInfo(data);
+    api
+      .editProfile(data)
+      .then((res) => {
+        userInfo.setUserInfo(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   resetValidation: () => {
     formProfileEditValidator.resetErrorInput();
@@ -121,7 +128,7 @@ api
   })
   .catch((err) => {
     console.log(err);
-});
+  });
 
 /**Загружаем на страницу карточки по умолчанию */
 api
@@ -141,7 +148,7 @@ api
   })
   .catch((err) => {
     console.log(err);
-});
+  });
 
 /**Устанавливаем слушатели на попапы */
 popupProfileEdit.setEventListeners();
