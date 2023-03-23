@@ -2,7 +2,7 @@
 import "../pages/index.css";
 
 /**Импортируем модули карточки, готовых карточек и валидации форм. */
-import { initialCards } from "../scripts/utils/initialCards.js";
+// import { initialCards } from "../scripts/utils/initialCards.js";
 import Card from "../scripts/components/Card.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
@@ -26,8 +26,8 @@ const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
 const userAvatar = profile.querySelector(".profile__avatar");
-const userName = profile.querySelector(".profile__name");
-const userAbout = profile.querySelector(".profile__about");
+// const userName = profile.querySelector(".profile__name");
+// const userAbout = profile.querySelector(".profile__about");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -42,7 +42,6 @@ const formNewCardAdd = popupNewCard.querySelector(
   ".popup-newcard__form-card-add"
 );
 
-
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort-62",
@@ -51,17 +50,6 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-/**Загружаем данные пользователя с сервера */
-api
-  .getUserInfo()
-  .then((user) => {
-    userAvatar.src = user.avatar;
-    userInfo.setUserInfo(user);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 /**Функция создания новой карточки */
 function createNewCard(data) {
@@ -124,19 +112,36 @@ function openProfileEditPopup() {
   popupProfileEdit.open();
 }
 
-/**Добавляем на страницу карточки по умолчанию */
-const defaultCardList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = createNewCard(item);
-      defaultCardList.addItem(cardElement);
-    },
-  },
-  ".elements"
-);
+/**Загружаем данные пользователя с сервера */
+api
+  .getUserInfo()
+  .then((user) => {
+    userAvatar.src = user.avatar;
+    userInfo.setUserInfo(user);
+  })
+  .catch((err) => {
+    console.log(err);
+});
 
-defaultCardList.renderItems();
+/**Загружаем на страницу карточки по умолчанию */
+api
+  .getInitialCards()
+  .then((cards) => {
+    const defaultCardList = new Section(
+      {
+        items: cards,
+        renderer: (item) => {
+          const cardElement = createNewCard(item);
+          defaultCardList.addItem(cardElement);
+        },
+      },
+      ".elements"
+    );
+    defaultCardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+});
 
 /**Устанавливаем слушатели на попапы */
 popupProfileEdit.setEventListeners();
