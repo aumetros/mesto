@@ -57,8 +57,7 @@ api
   .getUserInfo()
   .then((user) => {
     userAvatar.src = user.avatar;
-    userName.textContent = user.name;
-    userAbout.textContent = user.about;
+    userInfo.setUserInfo(user);
   })
   .catch((err) => {
     console.log(err);
