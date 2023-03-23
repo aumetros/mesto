@@ -28,7 +28,7 @@ const newCardAddButton = profile.querySelector(".profile__add-button");
 const userAvatar = profile.querySelector(".profile__avatar");
 // const userName = profile.querySelector(".profile__name");
 // const userAbout = profile.querySelector(".profile__about");
-const cardContainer = document.querySelector(".elements");
+const cardsContainer = document.querySelector(".elements");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -87,7 +87,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
     api.addNewCard(data)
     .then((res) => {
       const newCard = createNewCard(res);
-      cardContainer.prepend(newCard);  //Требует рефакторинга
+      cardsContainer.prepend(newCard);  //Требует рефакторинга
     })
   },
   resetValidation: () => {
