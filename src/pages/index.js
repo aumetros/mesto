@@ -2,7 +2,6 @@
 import "../pages/index.css";
 
 /**Импортируем модули карточки, готовых карточек и валидации форм. */
-// import { initialCards } from "../scripts/utils/initialCards.js";
 import Card from "../scripts/components/Card.js";
 import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
@@ -26,9 +25,6 @@ const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
 const userAvatar = profile.querySelector(".profile__avatar");
-// const userName = profile.querySelector(".profile__name");
-// const userAbout = profile.querySelector(".profile__about");
-const cardsContainer = document.querySelector(".elements");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -47,22 +43,20 @@ const formNewCardAdd = popupNewCard.querySelector(
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort-62",
   headers: {
-    authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a"
+    authorization: "6ba72a3f-7eee-48cb-8d60-730e6585ad7a",
   },
 });
 
-/**Функция создания новой карточки */
-function createNewCard(data) {
-  const card = new Card(data, "#card", {
-    handleCardClick: (evt) => {
-      const name = evt.target.alt;
-      const link = evt.target.src;
-      popupWithImage.open(name, link);
+/**Создаем экземпляр класса секции с карточками */
+const cardsSection = new Section(
+  {
+    renderer: (item) => {
+      const cardElement = createNewCard(item);
+      cardsSection.addItem(cardElement);
     },
-  });
-  const newElement = card.generateCard();
-  return newElement;
-}
+  },
+  ".elements"
+);
 
 /**Создаем экземпляры попапов */
 const popupProfileEdit = new PopupWithForm(".popup-profile", {
@@ -83,11 +77,10 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
 
 const popupCardSubmit = new PopupWithForm(".popup-newcard", {
   submitForm: (data) => {
-    api.addNewCard(data)
-    .then((res) => {
+    api.addNewCard(data).then((res) => {
       const newCard = createNewCard(res);
-      cardsContainer.prepend(newCard);  //Требует рефакторинга
-    })
+      cardsSection.addItem(newCard);
+    });
   },
   resetValidation: () => {
     formCardSubmitValidator.resetErrorInput();
@@ -114,6 +107,19 @@ const userInfo = new UserInfo({
   about: ".profile__about",
 });
 
+/**Функция создания новой карточки */
+function createNewCard(data) {
+  const card = new Card(data, "#card", {
+    handleCardClick: (evt) => {
+      const name = evt.target.alt;
+      const link = evt.target.src;
+      popupWithImage.open(name, link);
+    },
+  });
+  const newElement = card.generateCard();
+  return newElement;
+}
+
 /**Функция открытия формы редактирования данных профайла */
 function openProfileEditPopup() {
   const userData = userInfo.getUserInfo();
@@ -137,17 +143,7 @@ api
 api
   .getInitialCards()
   .then((cards) => {
-    const defaultCardList = new Section(
-      {
-        items: cards,
-        renderer: (item) => {
-          const cardElement = createNewCard(item);
-          defaultCardList.addItem(cardElement);
-        },
-      },
-      ".elements"
-    );
-    defaultCardList.renderItems();
+    cardsSection.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);

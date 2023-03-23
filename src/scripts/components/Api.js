@@ -1,14 +1,13 @@
 export default class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
-    // this._headers = headers;
-    this._id = headers.authorization;
+    this._token = headers.authorization;
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        authorization: this._id,
+        authorization: this._token,
       },
     }).then((res) => {
       if (res.ok) {
@@ -21,7 +20,7 @@ export default class Api {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        authorization: this._id,
+        authorization: this._token,
       },
     }).then((res) => {
       if (res.ok) {
@@ -35,7 +34,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
-        authorization: this._id,
+        authorization: this._token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -54,7 +53,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: {
-        authorization: this._id,
+        authorization: this._token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
