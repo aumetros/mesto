@@ -28,6 +28,7 @@ const newCardAddButton = profile.querySelector(".profile__add-button");
 const userAvatar = profile.querySelector(".profile__avatar");
 // const userName = profile.querySelector(".profile__name");
 // const userAbout = profile.querySelector(".profile__about");
+const cardContainer = document.querySelector(".elements");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -83,8 +84,11 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
 
 const popupCardSubmit = new PopupWithForm(".popup-newcard", {
   submitForm: (data) => {
-    const newCard = createNewCard(data);
-    defaultCardList.addItem(newCard);
+    api.addNewCard(data)
+    .then((res) => {
+      const newCard = createNewCard(res);
+      cardContainer.prepend(newCard);  //Требует рефакторинга
+    })
   },
   resetValidation: () => {
     formCardSubmitValidator.resetErrorInput();
@@ -162,5 +166,5 @@ formCardSubmitValidator.enableValidation();
 /**Устанавливаем слушатель события на кнопку открытия формы редактирования профайла */
 profileEditButton.addEventListener("click", openProfileEditPopup);
 
-/**Устанавливаем событие на кнопку открытия формы добавления карты */
+/**Устанавливаем событие на кнопку открытия формы добавления карточки */
 newCardAddButton.addEventListener("click", () => popupCardSubmit.open());
