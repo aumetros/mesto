@@ -24,7 +24,6 @@ const configValidation = {
 const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
-const userAvatar = profile.querySelector(".profile__avatar");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -64,7 +63,7 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
     api
       .editProfile(data)
       .then((res) => {
-        userInfo.setUserInfo(res);
+        userInfo.renderUserInfo(res);
       })
       .catch((err) => {
         console.log(err);
@@ -101,12 +100,6 @@ const formCardSubmitValidator = new FormValidator(
   formNewCardAdd
 );
 
-/**Создаем класс управляющий отображением данных пользователя */
-const userInfo = new UserInfo({
-  name: ".profile__name",
-  about: ".profile__about",
-});
-
 /**Функция создания новой карточки */
 function createNewCard(data) {
   const card = new Card(data, "#card", {
@@ -117,6 +110,7 @@ function createNewCard(data) {
     },
   });
   const newElement = card.generateCard();
+  getId();
   return newElement;
 }
 
@@ -128,12 +122,26 @@ function openProfileEditPopup() {
   popupProfileEdit.open();
 }
 
+//Функция возвращения id пользователя
+function getId() {
+  const userId = userInfo.getUserId();
+  return userId;
+}
+
+/**Создаем класс управляющий отображением данных пользователя */
+const userInfo = new UserInfo({
+  name: ".profile__name",
+  about: ".profile__about",
+  avatar: ".profile__avatar"
+});
+
 /**Загружаем данные пользователя с сервера */
 api
   .getUserInfo()
   .then((user) => {
-    userAvatar.src = user.avatar;
-    userInfo.setUserInfo(user);
+    userInfo.setUserId(user);
+    userInfo.renderUserInfo(user);
+    userInfo.renderUserAvatar(user);
   })
   .catch((err) => {
     console.log(err);
