@@ -100,6 +100,14 @@ const formCardSubmitValidator = new FormValidator(
   formNewCardAdd
 );
 
+/**Функция отображения кнопки удалить у карточки пользователя */
+function renderTrashButton(cardId, trashButton) {
+  if (cardId === getId()) {
+    trashButton.classList.add("element__trash-button_showed");
+  }
+  return;
+}
+
 /**Функция создания новой карточки */
 function createNewCard(data) {
   const card = new Card(data, "#card", {
@@ -108,9 +116,25 @@ function createNewCard(data) {
       const link = evt.target.src;
       popupWithImage.open(name, link);
     },
+    generateCard: () => {
+      card.element = card.getTemplate();
+      card.elementFoto = card.element.querySelector(".element__foto");
+      card.elementFoto.src = card._link;
+      card.elementFoto.alt = card._name;
+
+      card.trashButton = card.element.querySelector(".element__trash-button");
+      
+      card.element.querySelector(".element__title").textContent = card._name;
+      card.element.querySelector(".element__like-counter").textContent = card.likes.length;
+
+      renderTrashButton(card.ownerId, card.trashButton);
+
+      card.setEventListeners();
+
+      return card.element;
+    },
   });
   const newElement = card.generateCard();
-  getId();
   return newElement;
 }
 
@@ -132,7 +156,7 @@ function getId() {
 const userInfo = new UserInfo({
   name: ".profile__name",
   about: ".profile__about",
-  avatar: ".profile__avatar"
+  avatar: ".profile__avatar",
 });
 
 /**Загружаем данные пользователя с сервера */
