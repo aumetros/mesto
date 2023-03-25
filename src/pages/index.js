@@ -7,6 +7,7 @@ import FormValidator from "../scripts/components/FormValidator.js";
 import Section from "../scripts/components/Section.js";
 import PopupWithImage from "../scripts/components/PopupWithImage.js";
 import PopupWithForm from "../scripts/components/popupWithForm.js";
+import PopupWithConfirmation from "../scripts/components/PopupWithConfirmation.js";
 import UserInfo from "../scripts/components/UserInfo.js";
 import Api from "../scripts/components/Api.js";
 
@@ -37,6 +38,8 @@ const popupNewCard = document.querySelector(".popup-newcard");
 const formNewCardAdd = popupNewCard.querySelector(
   ".popup-newcard__form-card-add"
 );
+
+const popupDeleteCard = document.querySelector(".popup-confirm-delete");
 
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
@@ -89,6 +92,21 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
 
 const popupWithImage = new PopupWithImage(".popup-image");
 
+const popupWithConfirmation = new PopupWithConfirmation(".popup-confirm-delete",
+  {
+    submitForm: (cardId, card) => {
+      api
+        .deleteCard(cardId)
+        .then(() => {
+          card.remove();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  }
+);
+
 /**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
 const formProfileEditValidator = new FormValidator(
   configValidation,
@@ -123,15 +141,19 @@ function createNewCard(data) {
       card.elementFoto.alt = card._name;
 
       card.trashButton = card.element.querySelector(".element__trash-button");
-      
+
       card.element.querySelector(".element__title").textContent = card._name;
-      card.element.querySelector(".element__like-counter").textContent = card.likes.length;
+      card.element.querySelector(".element__like-counter").textContent =
+        card.likes.length;
 
       renderTrashButton(card.ownerId, card.trashButton);
 
       card.setEventListeners();
 
       return card.element;
+    },
+    handleDeleteCard: (cardId, card) => {
+      popupWithConfirmation.open(cardId, card);
     },
   });
   const newElement = card.generateCard();
@@ -185,6 +207,7 @@ api
 popupProfileEdit.setEventListeners();
 popupCardSubmit.setEventListeners();
 popupWithImage.setEventListeners();
+popupWithConfirmation.setEventListeners();
 
 /**Устанавливаем валидацию на каждую форму */
 formProfileEditValidator.enableValidation();
