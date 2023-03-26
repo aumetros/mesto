@@ -25,6 +25,8 @@ const configValidation = {
 const profile = document.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const newCardAddButton = profile.querySelector(".profile__add-button");
+const userAvatar = profile.querySelector(".profile__avatar");
+const formAvatarEdit = document.querySelector(".popup-edit-avatar__form");
 
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
@@ -38,6 +40,8 @@ const popupNewCard = document.querySelector(".popup-newcard");
 const formNewCardAdd = popupNewCard.querySelector(
   ".popup-newcard__form-card-add"
 );
+
+
 
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
@@ -106,6 +110,22 @@ const popupWithConfirmation = new PopupWithConfirmation(
   }
 );
 
+const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
+  submitForm: (data) => {
+
+    api.editAvatar(data.link)
+    .then((res) => {      
+      userInfo.renderUserAvatar(res);      
+    }).catch((err) => {
+      console.log(err);
+    });
+  },
+  resetValidation: () => {
+    formAvatarEditValidation.resetErrorInput();
+    formAvatarEditValidation.disableSubmitButton();
+  },
+});
+
 /**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
 const formProfileEditValidator = new FormValidator(
   configValidation,
@@ -116,6 +136,11 @@ const formCardSubmitValidator = new FormValidator(
   configValidation,
   formNewCardAdd
 );
+
+const formAvatarEditValidation = new FormValidator(
+  configValidation,
+  formAvatarEdit
+)
 
 /**Функция отображения кнопки удалить у карточки пользователя */
 function renderTrashButton(cardId, trashButton) {
@@ -244,13 +269,18 @@ popupProfileEdit.setEventListeners();
 popupCardSubmit.setEventListeners();
 popupWithImage.setEventListeners();
 popupWithConfirmation.setEventListeners();
+popupEditAvatar.setEventListeners();
 
 /**Устанавливаем валидацию на каждую форму */
 formProfileEditValidator.enableValidation();
 formCardSubmitValidator.enableValidation();
+formAvatarEditValidation.enableValidation();
 
 /**Устанавливаем слушатель события на кнопку открытия формы редактирования профайла */
 profileEditButton.addEventListener("click", openProfileEditPopup);
 
 /**Устанавливаем событие на кнопку открытия формы добавления карточки */
 newCardAddButton.addEventListener("click", () => popupCardSubmit.open());
+
+/**Устаналиваем слушатель на аватар - редактирование */
+userAvatar.addEventListener("click", () => popupEditAvatar.open());
