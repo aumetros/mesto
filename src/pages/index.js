@@ -41,8 +41,6 @@ const formNewCardAdd = popupNewCard.querySelector(
   ".popup-newcard__form-card-add"
 );
 
-
-
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort-62",
@@ -54,7 +52,7 @@ const api = new Api({
 /**Создаем экземпляр класса секции с карточками */
 const cardsSection = new Section(
   {
-    renderer: (item) => {      
+    renderer: (item) => {
       const cardElement = createNewCard(item);
       cardsSection.addItem(cardElement);
     },
@@ -72,6 +70,9 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        popupProfileEdit._renderLoading(false);
       });
   },
   resetValidation: () => {
@@ -81,10 +82,18 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
 
 const popupCardSubmit = new PopupWithForm(".popup-newcard", {
   submitForm: (data) => {
-    api.addNewCard(data).then((res) => {
-      const newCard = createNewCard(res);
-      cardsSection.addItem(newCard);
-    });
+    api
+      .addNewCard(data)
+      .then((res) => {
+        const newCard = createNewCard(res);
+        cardsSection.addItem(newCard);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        popupCardSubmit._renderLoading(false);
+      });
   },
   resetValidation: () => {
     formCardSubmitValidator.resetErrorInput();
@@ -112,17 +121,21 @@ const popupWithConfirmation = new PopupWithConfirmation(
 
 const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
   submitForm: (data) => {
-
-    api.editAvatar(data.link)
-    .then((res) => {      
-      userInfo.renderUserAvatar(res);      
-    }).catch((err) => {
-      console.log(err);
-    });
+    api
+      .editAvatar(data.link)
+      .then((res) => {
+        userInfo.renderUserAvatar(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        popupEditAvatar._renderLoading(false);
+      });
   },
   resetValidation: () => {
-    formAvatarEditValidation.resetErrorInput();
-    formAvatarEditValidation.disableSubmitButton();
+    formAvatarEditValidator.resetErrorInput();
+    formAvatarEditValidator.disableSubmitButton();
   },
 });
 
@@ -137,10 +150,10 @@ const formCardSubmitValidator = new FormValidator(
   formNewCardAdd
 );
 
-const formAvatarEditValidation = new FormValidator(
+const formAvatarEditValidator = new FormValidator(
   configValidation,
   formAvatarEdit
-)
+);
 
 /**Функция отображения кнопки удалить у карточки пользователя */
 function renderTrashButton(cardId, trashButton) {
@@ -274,7 +287,7 @@ popupEditAvatar.setEventListeners();
 /**Устанавливаем валидацию на каждую форму */
 formProfileEditValidator.enableValidation();
 formCardSubmitValidator.enableValidation();
-formAvatarEditValidation.enableValidation();
+formAvatarEditValidator.enableValidation();
 
 /**Устанавливаем слушатель события на кнопку открытия формы редактирования профайла */
 profileEditButton.addEventListener("click", openProfileEditPopup);

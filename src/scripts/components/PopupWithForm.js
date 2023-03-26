@@ -4,6 +4,8 @@ export default class PopupWithForm extends Popup {
   constructor(popupSelector, { submitForm, resetValidation }) {
     super(popupSelector);
     this._form = this._popup.querySelector(".popup__form");
+    this._buttonText = this._popup.querySelector(".popup__button-text");
+    this._spinner = this._popup.querySelector(".popup__button-spinner");
     this._submitForm = submitForm;
     this._resetValidation = resetValidation;
   }
@@ -17,16 +19,27 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  _renderLoading(isLoading) {
+    if (isLoading) {
+      this._spinner.classList.add("popup__button-spinner_visible");
+      this._buttonText.classList.add("popup__button-text_hidden");
+    } else {
+      this._buttonText.classList.remove("popup__button-text_hidden");
+      this._spinner.classList.remove("popup__button-spinner_visible");
+    }
+  }
+
   close() {
     super.close();
     this._resetValidation();
-    this._form.reset();
+    this._form.reset();    
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener("submit", (evt) => {
+    this._form.addEventListener("submit", (evt) => {      
       evt.preventDefault();
+      this._renderLoading(true);
       this._submitForm(this._getInputValues());
       this.close();
     });
