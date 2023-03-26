@@ -136,7 +136,7 @@
       <div class="popup-confirm-delete__container">
 
         <form class="popup__form popup-confirm-delete__form">
-          <p class="popup-confirm-delete__title">Вы уверены?</p>
+          <h2 class="popup-confirm-delete__title">Вы уверены?</h2>
           <button class="popup__button popup__confirm-delete-button" type="submit">Да</button>
         </form>
 
@@ -144,6 +144,30 @@
 
       </div>
 
+    </section>
+
+    <!--Поп-ап редактирования аватара пользователя-->
+    <section class="popup-edit-avatar popup popup_opened">
+
+      <div class="popup-edit-avatar__container">
+
+        <form class="popup__form popup-edit-avatar__form">
+
+          <h2 class="popup-edit-avatar__title">Обновить аватар</h2>
+
+          <input type="url" id="avatar-link"
+          class="popup__input popup-newcard__input popup-newcard__input_type_link form-input" name="link"
+          placeholder="Введите сылку на новый аватар" required>
+
+        <span class="popup__input popup__input_type_error link-error"></span>
+
+        <button class="popup__button popup-edit-avatar__button" type="submit">Сохранить</button>
+
+        </form>
+
+        <button class="popup__close" type="button"></button>
+
+      </div>
 
     </section>
 
