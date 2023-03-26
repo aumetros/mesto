@@ -135,22 +135,21 @@ function createNewCard(data) {
       popupWithImage.open(name, link);
     },
     generateCard: () => {
-      card.element = card.getTemplate();
-      card.elementFoto = card.element.querySelector(".element__foto");
-      card.elementFoto.src = card._link;
-      card.elementFoto.alt = card._name;
+      card._element = card.getTemplate();
+      card._elementFoto = card._element.querySelector(".element__foto");
+      card._elementFoto.src = card._link;
+      card._elementFoto.alt = card._name;
 
-      card.trashButton = card.element.querySelector(".element__trash-button");
+      card._trashButton = card._element.querySelector(".element__trash-button");
 
-      card.element.querySelector(".element__title").textContent = card._name;
-      card.element.querySelector(".element__like-counter").textContent =
-        card.likes.length;
+      card._element.querySelector(".element__title").textContent = card._name;
+      card._element.querySelector(".element__like-counter").textContent = card._likes.length;
 
-      renderTrashButton(card.ownerId, card.trashButton);
+      renderTrashButton(card._ownerId, card._trashButton);
 
       card.setEventListeners();
 
-      return card.element;
+      return card._element;
     },
     handleDeleteCard: (cardId, card) => {
       popupWithConfirmation.open(cardId, card);

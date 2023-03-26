@@ -6,9 +6,9 @@ export default class Card {
   ) {
     this._link = data.link;
     this._name = data.name;
-    this.id = data._id;
-    this.ownerId = data.owner._id;
-    this.likes = data.likes;
+    this._id = data._id;
+    this._ownerId = data.owner._id;
+    this._likes = data.likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this.generateCard = generateCard;
@@ -29,15 +29,15 @@ export default class Card {
   }
 
   setEventListeners() {
-    this.element
+    this._element
       .querySelector(".element__like-button")
       .addEventListener("click", this._handleLikeCard);
 
-    this.element
+    this._element
       .querySelector(".element__trash-button")
-      .addEventListener("click", () => this._handleDeleteCard(this.id, this.element));
+      .addEventListener("click", () => this._handleDeleteCard(this._id, this._element));
 
-    this.elementFoto.addEventListener("click", (evt) =>
+    this._elementFoto.addEventListener("click", (evt) =>
       this._handleCardClick(evt)
     );
   }
