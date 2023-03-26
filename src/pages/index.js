@@ -31,15 +31,11 @@ const formAvatarEdit = document.querySelector(".popup-edit-avatar__form");
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
 const nameInput = popupProfile.querySelector(".popup-profile__input_type_name");
-const aboutInput = popupProfile.querySelector(
-  ".popup-profile__input_type_about"
-);
+const aboutInput = popupProfile.querySelector(".popup-profile__input_type_about");
 const formProfileEdit = popupProfile.querySelector(".popup__form-profile-edit");
 
 const popupNewCard = document.querySelector(".popup-newcard");
-const formNewCardAdd = popupNewCard.querySelector(
-  ".popup-newcard__form-card-add"
-);
+const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
 
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
@@ -139,7 +135,7 @@ const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
   },
 });
 
-/**Создаем экземпляр валидации формы каждого попа для обращения к публичным методам */
+/**Создаем экземпляр валидации формы каждого попапа */
 const formProfileEditValidator = new FormValidator(
   configValidation,
   formProfileEdit
@@ -154,6 +150,13 @@ const formAvatarEditValidator = new FormValidator(
   configValidation,
   formAvatarEdit
 );
+
+/**Создаем класс управляющий отображением данных пользователя */
+const userInfo = new UserInfo({
+  name: ".profile__name",
+  about: ".profile__about",
+  avatar: ".profile__avatar",
+});
 
 /**Функция отображения кнопки удалить у карточки пользователя */
 function renderTrashButton(cardId, trashButton) {
@@ -247,13 +250,6 @@ function getId() {
   const userId = userInfo.getUserId();
   return userId;
 }
-
-/**Создаем класс управляющий отображением данных пользователя */
-const userInfo = new UserInfo({
-  name: ".profile__name",
-  about: ".profile__about",
-  avatar: ".profile__avatar",
-});
 
 /**Загружаем данные пользователя с сервера */
 api
