@@ -52,7 +52,7 @@ const api = new Api({
 /**Создаем экземпляр класса секции с карточками */
 const cardsSection = new Section(
   {
-    renderer: (item) => {
+    renderer: (item) => {      
       const cardElement = createNewCard(item);
       cardsSection.addItem(cardElement);
     },
@@ -92,7 +92,8 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
 
 const popupWithImage = new PopupWithImage(".popup-image");
 
-const popupWithConfirmation = new PopupWithConfirmation(".popup-confirm-delete",
+const popupWithConfirmation = new PopupWithConfirmation(
+  ".popup-confirm-delete",
   {
     submitForm: (cardId, card) => {
       api
@@ -141,9 +142,15 @@ function createNewCard(data) {
       card._elementFoto.alt = card._name;
 
       card._trashButton = card._element.querySelector(".element__trash-button");
+      card._likeButton = card._element.querySelector(".element__like-button");
+      card._counter = card._element.querySelector(".element__like-counter");
 
       card._element.querySelector(".element__title").textContent = card._name;
-      card._element.querySelector(".element__like-counter").textContent = card._likes.length;
+      card._counter.textContent = card._likes.length;
+
+      if (isLiked(card._likes, getId())) {
+        card._likeButton.classList.toggle("element__like-button_checked");
+      }
 
       renderTrashButton(card._ownerId, card._trashButton);
 
@@ -154,9 +161,41 @@ function createNewCard(data) {
     handleDeleteCard: (cardId, card) => {
       popupWithConfirmation.open(cardId, card);
     },
+    handleLikeCard: (evt) => {
+      if (!isLiked(card._likes, getId())) {
+        api
+          .putLike(card._id)
+          .then((res) => {
+            card._likes = res.likes;
+            card._counter.textContent = res.likes.length;
+            evt.target.classList.toggle("element__like-button_checked");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        api
+          .deleteLike(card._id)
+          .then((res) => {
+            card._likes = res.likes;
+            card._counter.textContent = res.likes.length;
+            evt.target.classList.toggle("element__like-button_checked");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   });
   const newElement = card.generateCard();
   return newElement;
+}
+
+/**Функция проверки лайкнута ли карточка */
+function isLiked(cardLikes, userId) {
+  return cardLikes.some((like) => {
+    return like._id === userId;
+  });
 }
 
 /**Функция открытия формы редактирования данных профайла */

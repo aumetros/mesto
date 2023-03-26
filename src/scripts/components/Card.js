@@ -2,7 +2,7 @@ export default class Card {
   constructor(
     data,
     templateSelector,
-    { handleCardClick, generateCard, handleDeleteCard }
+    { handleCardClick, generateCard, handleDeleteCard, handleLikeCard }
   ) {
     this._link = data.link;
     this._name = data.name;
@@ -13,6 +13,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this.generateCard = generateCard;
     this._handleDeleteCard = handleDeleteCard;
+    this._handleLikeCard = handleLikeCard;
   }
 
   getTemplate() {
@@ -24,13 +25,8 @@ export default class Card {
     return cardElement;
   }
 
-  _handleLikeCard(evt) {
-    evt.target.classList.toggle("element__like-button_checked");
-  }
-
   setEventListeners() {
-    this._element
-      .querySelector(".element__like-button")
+    this._likeButton
       .addEventListener("click", this._handleLikeCard);
 
     this._element
