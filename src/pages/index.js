@@ -39,8 +39,6 @@ const formNewCardAdd = popupNewCard.querySelector(
   ".popup-newcard__form-card-add"
 );
 
-const popupDeleteCard = document.querySelector(".popup-confirm-delete");
-
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/cohort-62",

@@ -22,7 +22,7 @@ export default class UserInfo {
   }
 
   renderUserAvatar({avatar}) {
-    this._avatarProfile = avatar;
+    this._avatarProfile.style.backgroundImage = `url(${avatar})`;
   }
 
   setUserId({_id}) {

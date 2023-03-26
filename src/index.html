@@ -24,8 +24,14 @@
 
       <section class="profile">
 
-        <img src="<%=require('./images/avatar.png')%>" class="profile__avatar"
-          alt="Фотография Жак-Ив Кусто в красной шапочке">
+        <div class="profile__avatar">
+          <div class="profile__avatar-overlay"></div>
+        </div>
+
+        
+          <!-- <img src="<%=require('./images/avatar.png')%>" class="profile__avatar"
+            alt="Фотография пользователя">
+        </div> -->
 
         <div class="profile__info">
 
@@ -147,7 +153,7 @@
     </section>
 
     <!--Поп-ап редактирования аватара пользователя-->
-    <section class="popup-edit-avatar popup popup_opened">
+    <section class="popup-edit-avatar popup">
 
       <div class="popup-edit-avatar__container">
 
@@ -155,13 +161,12 @@
 
           <h2 class="popup-edit-avatar__title">Обновить аватар</h2>
 
-          <input type="url" id="avatar-link"
-          class="popup__input popup-newcard__input popup-newcard__input_type_link form-input" name="link"
-          placeholder="Введите сылку на новый аватар" required>
+          <input type="url" id="avatar-link" class="popup__input popup-edit-avatar__input form-input" name="avatar-link"
+            placeholder="Введите сылку на новый аватар" required>
 
-        <span class="popup__input popup__input_type_error link-error"></span>
+          <span class="popup__input popup__input_type_error avatar-link-error"></span>
 
-        <button class="popup__button popup-edit-avatar__button" type="submit">Сохранить</button>
+          <button class="popup__button popup-edit-avatar__button" type="submit">Сохранить</button>
 
         </form>
 
