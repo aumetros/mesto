@@ -25,6 +25,30 @@ export default class Card {
     return cardElement;
   }
 
+  _generateCard() {
+    card._element = card.getTemplate();
+    card._elementFoto = card._element.querySelector(".element__foto");
+    card._elementFoto.src = card._link;
+    card._elementFoto.alt = card._name;
+
+    card._trashButton = card._element.querySelector(".element__trash-button");
+    card._likeButton = card._element.querySelector(".element__like-button");
+    card._counter = card._element.querySelector(".element__like-counter");
+
+    card._element.querySelector(".element__title").textContent = card._name;
+    card._counter.textContent = card._likes.length;
+
+    if (isLiked(card._likes, getId())) {
+      card._likeButton.classList.toggle("element__like-button_checked");
+    }
+
+    renderTrashButton(card._ownerId, card._trashButton);
+
+    card.setEventListeners();
+
+    return card._element;
+  }
+
   setEventListeners() {
     this._likeButton
       .addEventListener("click", this._handleLikeCard);
