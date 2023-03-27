@@ -57,7 +57,7 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
         console.log(err);
       })
       .finally(() => {
-        popupProfileEdit._renderLoading(false);
+        popupProfileEdit.renderLoading(false);
       });
   },
   resetValidation: () => {
@@ -78,7 +78,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
         console.log(err);
       })
       .finally(() => {
-        popupCardSubmit._renderLoading(false);
+        popupCardSubmit.renderLoading(false);
       });
   },
   resetValidation: () => {
@@ -117,7 +117,7 @@ const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
         console.log(err);
       })
       .finally(() => {
-        popupEditAvatar._renderLoading(false);
+        popupEditAvatar.renderLoading(false);
       });
   },
   resetValidation: () => {

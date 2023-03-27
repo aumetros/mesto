@@ -19,7 +19,7 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
-  _renderLoading(isLoading) {
+  renderLoading(isLoading) {
     if (isLoading) {
       this._spinner.classList.add("popup__button-spinner_visible");
       this._buttonText.classList.add("popup__button-text_hidden");
@@ -39,7 +39,7 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._renderLoading(true);
+      this.renderLoading(true);
       this._submitForm(this._getInputValues());
     });
   }
