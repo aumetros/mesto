@@ -4,12 +4,21 @@ export default class Api {
     this._token = headers.authorization;
   }
 
+  _checkResponse(res) {
+    // res.ok ? console.log('Мяу') : Promise.reject(`Ошибка: ${res.status}`);
+    res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+}
+
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: this._token,
       },
     }).then((res) => {
+
+      // this._checkResponse(res);
+
+
       if (res.ok) {
         return res.json();
       }

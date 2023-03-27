@@ -5,6 +5,9 @@ export default class FormValidator {
     this._buttonElement = this._form.querySelector(
       this._config.submitButtonSelector
     );
+    this._errorInputList = this._form.querySelectorAll(
+      `.${this._config.inputErrorClass}`
+    );
   }
 
   _toggleButtonState() {
@@ -56,10 +59,7 @@ export default class FormValidator {
   }
 
   resetErrorInput() {
-    const errorInputList = this._form.querySelectorAll(
-      `.${this._config.inputErrorClass}`
-    );
-    errorInputList.forEach((errorInput) => {
+    this._errorInputList.forEach((errorInput) => {
       this._hideInputError(errorInput);
     });
   }

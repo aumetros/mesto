@@ -51,6 +51,7 @@ const popupProfileEdit = new PopupWithForm(".popup-profile", {
       .editProfile(data)
       .then((res) => {
         userInfo.renderUserInfo(res);
+        popupProfileEdit.close();
       })
       .catch((err) => {
         console.log(err);
@@ -71,6 +72,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
       .then((res) => {
         const newCard = createNewCard(res, getId());
         cardsSection.addItem(newCard);
+        popupCardSubmit.close();
       })
       .catch((err) => {
         console.log(err);
@@ -109,6 +111,7 @@ const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
       .editAvatar(data.link)
       .then((res) => {
         userInfo.renderUserAvatar(res);
+        popupEditAvatar.close();
       })
       .catch((err) => {
         console.log(err);
