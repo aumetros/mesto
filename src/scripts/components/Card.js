@@ -1,22 +1,23 @@
 export default class Card {
   constructor(
     data,
+    userId,
     templateSelector,
-    { handleCardClick, generateCard, handleDeleteCard, handleLikeCard }
+    { handleCardClick, handleDeleteCard, handleLikeCard }
   ) {
     this._link = data.link;
     this._name = data.name;
-    this._id = data._id;
-    this._ownerId = data.owner._id;
-    this._likes = data.likes;
+    this.userId = userId;
+    this.cardId = data._id;
+    this.likes = data.likes;
+    this._cardOwnerId = data.owner._id;    
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    this.generateCard = generateCard;
     this._handleDeleteCard = handleDeleteCard;
     this._handleLikeCard = handleLikeCard;
   }
 
-  getTemplate() {
+  _getTemplate() {
     const cardElement = document
       .querySelector(this._templateSelector)
       .content.querySelector(".element")
@@ -25,37 +26,61 @@ export default class Card {
     return cardElement;
   }
 
-  _generateCard() {
-    card._element = card.getTemplate();
-    card._elementFoto = card._element.querySelector(".element__foto");
-    card._elementFoto.src = card._link;
-    card._elementFoto.alt = card._name;
-
-    card._trashButton = card._element.querySelector(".element__trash-button");
-    card._likeButton = card._element.querySelector(".element__like-button");
-    card._counter = card._element.querySelector(".element__like-counter");
-
-    card._element.querySelector(".element__title").textContent = card._name;
-    card._counter.textContent = card._likes.length;
-
-    if (isLiked(card._likes, getId())) {
-      card._likeButton.classList.toggle("element__like-button_checked");
+  _renderTrashButton(cardOwnerId, userId) {
+    if (cardOwnerId === userId) {
+      this._trashButton.classList.add("element__trash-button_showed");
     }
-
-    renderTrashButton(card._ownerId, card._trashButton);
-
-    card.setEventListeners();
-
-    return card._element;
+    return;
   }
 
-  setEventListeners() {
-    this._likeButton
-      .addEventListener("click", this._handleLikeCard);
+  isLiked(cardLikes, userId) {
+    return cardLikes.some((like) => {
+      return like._id === userId;
+    });
+  }
+
+  switchLike(evt, likes) {
+      this.likes = likes;
+      this._counter.textContent = likes.length;
+      evt.target.classList.toggle("element__like-button_checked");
+  }
+
+  _renderLiked() {
+    if (this.isLiked(this.likes, this.userId)) {
+      this._likeButton.classList.toggle("element__like-button_checked");
+    }
+  }
+
+  generateCard() {
+    this._element = this._getTemplate();
+    this._elementFoto = this._element.querySelector(".element__foto");
+    this._elementFoto.src = this._link;
+    this._elementFoto.alt = this._name;
+
+    this._trashButton = this._element.querySelector(".element__trash-button");
+    this._likeButton = this._element.querySelector(".element__like-button");
+    this._counter = this._element.querySelector(".element__like-counter");
+
+    this._element.querySelector(".element__title").textContent = this._name;
+    this._counter.textContent = this.likes.length;
+
+    this._renderLiked();
+
+    this._renderTrashButton(this._cardOwnerId, this.userId);
+
+    this._setEventListeners();
+
+    return this._element;
+  }
+
+  _setEventListeners() {
+    this._likeButton.addEventListener("click", this._handleLikeCard);
 
     this._element
       .querySelector(".element__trash-button")
-      .addEventListener("click", () => this._handleDeleteCard(this._id, this._element));
+      .addEventListener("click", () =>
+        this._handleDeleteCard(this.cardId, this._element)
+      );
 
     this._elementFoto.addEventListener("click", (evt) =>
       this._handleCardClick(evt)

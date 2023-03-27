@@ -36,8 +36,8 @@ const api = new Api({
 /**Создаем экземпляр класса секции с карточками */
 const cardsSection = new Section(
   {
-    renderer: (item) => {
-      const cardElement = createNewCard(item);
+    renderer: (item, userId) => {
+      const cardElement = createNewCard(item, userId);
       cardsSection.addItem(cardElement);
     },
   },
@@ -69,7 +69,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
     api
       .addNewCard(data)
       .then((res) => {
-        const newCard = createNewCard(res);
+        const newCard = createNewCard(res, getId());
         cardsSection.addItem(newCard);
       })
       .catch((err) => {
@@ -146,67 +146,32 @@ const userInfo = new UserInfo({
   avatar: ".profile__avatar",
 });
 
-/**Функция отображения кнопки удалить у карточки пользователя */
-function renderTrashButton(cardId, trashButton) {
-  if (cardId === getId()) {
-    trashButton.classList.add("element__trash-button_showed");
-  }
-  return;
-}
-
 /**Функция создания новой карточки */
-function createNewCard(data) {
-  const card = new Card(data, "#card", {
+function createNewCard(data, userId) {
+  const card = new Card(data, userId, "#card", {
     handleCardClick: (evt) => {
       const name = evt.target.alt;
       const link = evt.target.src;
       popupWithImage.open(name, link);
     },
-    generateCard: () => {
-      card._element = card.getTemplate();
-      card._elementFoto = card._element.querySelector(".element__foto");
-      card._elementFoto.src = card._link;
-      card._elementFoto.alt = card._name;
-
-      card._trashButton = card._element.querySelector(".element__trash-button");
-      card._likeButton = card._element.querySelector(".element__like-button");
-      card._counter = card._element.querySelector(".element__like-counter");
-
-      card._element.querySelector(".element__title").textContent = card._name;
-      card._counter.textContent = card._likes.length;
-
-      if (isLiked(card._likes, getId())) {
-        card._likeButton.classList.toggle("element__like-button_checked");
-      }
-
-      renderTrashButton(card._ownerId, card._trashButton);
-
-      card.setEventListeners();
-
-      return card._element;
-    },
     handleDeleteCard: (cardId, card) => {
       popupWithConfirmation.open(cardId, card);
     },
     handleLikeCard: (evt) => {
-      if (!isLiked(card._likes, getId())) {
+      if (!card.isLiked(card.likes, card.userId)) {
         api
-          .putLike(card._id)
+          .putLike(card.cardId)
           .then((res) => {
-            card._likes = res.likes;
-            card._counter.textContent = res.likes.length;
-            evt.target.classList.toggle("element__like-button_checked");
+            card.switchLike(evt, res.likes);
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
         api
-          .deleteLike(card._id)
+          .deleteLike(card.cardId)
           .then((res) => {
-            card._likes = res.likes;
-            card._counter.textContent = res.likes.length;
-            evt.target.classList.toggle("element__like-button_checked");
+            card.switchLike(evt, res.likes);
           })
           .catch((err) => {
             console.log(err);
@@ -216,13 +181,6 @@ function createNewCard(data) {
   });
   const newElement = card.generateCard();
   return newElement;
-}
-
-/**Функция проверки лайкнута ли карточка */
-function isLiked(cardLikes, userId) {
-  return cardLikes.some((like) => {
-    return like._id === userId;
-  });
 }
 
 /**Функция открытия формы редактирования данных профайла */
@@ -249,7 +207,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     userInfo.renderUserInfo(res[0]);
     userInfo.renderUserAvatar(res[0]);
 
-    cardsSection.renderItems(res[1]);
+    cardsSection.renderItems(res[1], getId());
   })
   .catch((err) => {
     console.log(err);
