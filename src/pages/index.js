@@ -31,11 +31,15 @@ const formAvatarEdit = document.querySelector(".popup-edit-avatar__form");
 /**Выбираем DOM элементы попапов */
 const popupProfile = document.querySelector(".popup-profile");
 const nameInput = popupProfile.querySelector(".popup-profile__input_type_name");
-const aboutInput = popupProfile.querySelector(".popup-profile__input_type_about");
+const aboutInput = popupProfile.querySelector(
+  ".popup-profile__input_type_about"
+);
 const formProfileEdit = popupProfile.querySelector(".popup__form-profile-edit");
 
 const popupNewCard = document.querySelector(".popup-newcard");
-const formNewCardAdd = popupNewCard.querySelector(".popup-newcard__form-card-add");
+const formNewCardAdd = popupNewCard.querySelector(
+  ".popup-newcard__form-card-add"
+);
 
 /** Создаем экземпляр класса для работы с API*/
 const api = new Api({
@@ -251,23 +255,17 @@ function getId() {
   return userId;
 }
 
-/**Загружаем данные пользователя с сервера */
-api
-  .getUserInfo()
-  .then((user) => {
-    userInfo.setUserId(user);
-    userInfo.renderUserInfo(user);
-    userInfo.renderUserAvatar(user);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+/**
+ * Загружаем данные пользователя с сервера
+ * Загружаем на страницу карточки по умолчанию
+ */
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then((res) => {
+    userInfo.setUserId(res[0]);
+    userInfo.renderUserInfo(res[0]);
+    userInfo.renderUserAvatar(res[0]);
 
-/**Загружаем на страницу карточки по умолчанию */
-api
-  .getInitialCards()
-  .then((cards) => {
-    cardsSection.renderItems(cards);
+    cardsSection.renderItems(res[1]);
   })
   .catch((err) => {
     console.log(err);
