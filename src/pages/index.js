@@ -38,7 +38,7 @@ const cardsSection = new Section(
   {
     renderer: (item, userId) => {
       const cardElement = createNewCard(item, userId);
-      cardsSection.addItem(cardElement);
+      cardsSection.renderDefaultItems(cardElement);
     },
   },
   ".elements"
