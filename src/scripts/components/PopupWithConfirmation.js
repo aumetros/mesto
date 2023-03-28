@@ -7,15 +7,11 @@ export default class PopupWithConfirmation extends Popup {
     this._submitForm = submitForm;
   }
 
-  open(cardId, card) {
-    super.open();
-    this._cardId = cardId;
-    this._card = card;
-  }
-
-  delete(card) {
-    card.remove();
-  }
+  // open(cardId, card) {
+  //   super.open();
+  //   this._cardId = cardId;
+  //   this._card = card;
+  // }  
 
   setEventListeners() {
     super.setEventListeners();

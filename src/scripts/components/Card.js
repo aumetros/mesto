@@ -10,7 +10,7 @@ export default class Card {
     this.userId = userId;
     this.cardId = data._id;
     this.likes = data.likes;
-    this._cardOwnerId = data.owner._id;    
+    this._cardOwnerId = data.owner._id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
@@ -40,15 +40,20 @@ export default class Card {
   }
 
   switchLike(evt, likes) {
-      this.likes = likes;
-      this._counter.textContent = likes.length;
-      evt.target.classList.toggle("element__like-button_checked");
+    this.likes = likes;
+    this._counter.textContent = likes.length;
+    evt.target.classList.toggle("element__like-button_checked");
   }
 
   _renderLiked() {
     if (this.isLiked(this.likes, this.userId)) {
       this._likeButton.classList.toggle("element__like-button_checked");
     }
+  }
+
+  delete() {
+    // this._element.remove();
+    console.log("Привет!");
   }
 
   generateCard() {
@@ -78,9 +83,7 @@ export default class Card {
 
     this._element
       .querySelector(".element__trash-button")
-      .addEventListener("click", () =>
-        this._handleDeleteCard(this.cardId, this._element)
-      );
+      .addEventListener("click", () => this._handleDeleteCard(this.cardId));
 
     this._elementFoto.addEventListener("click", (evt) =>
       this._handleCardClick(evt)

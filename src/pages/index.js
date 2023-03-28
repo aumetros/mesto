@@ -70,7 +70,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
     api
       .addNewCard(data)
       .then((res) => {
-        const newCard = createNewCard(res, getId());
+        const newCard = createNewCard(res, userInfo.getUserId());
         cardsSection.addItem(newCard);
         popupCardSubmit.close();
       })
@@ -89,21 +89,7 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
 
 const popupWithImage = new PopupWithImage(".popup-image");
 
-const popupWithConfirmation = new PopupWithConfirmation(
-  ".popup-confirm-delete",
-  {
-    submitForm: (cardId, card) => {
-      api
-        .deleteCard(cardId)
-        .then(() => {
-          popupWithConfirmation.delete(card);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  }
-);
+
 
 const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
   submitForm: (data) => {
@@ -149,6 +135,22 @@ const userInfo = new UserInfo({
   avatar: ".profile__avatar",
 });
 
+const popupWithConfirmation = new PopupWithConfirmation(
+  ".popup-confirm-delete",
+  {
+    submitForm: (cardId, cardElement) => {
+      api
+        .deleteCard(cardId)
+        .then(() => {
+          console.log(cardElement);        
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  }
+);
+
 /**Функция создания новой карточки */
 function createNewCard(data, userId) {
   const card = new Card(data, userId, "#card", {
@@ -157,8 +159,9 @@ function createNewCard(data, userId) {
       const link = evt.target.src;
       popupWithImage.open(name, link);
     },
-    handleDeleteCard: (cardId, card) => {
-      popupWithConfirmation.open(cardId, card);
+    handleDeleteCard: (cardId, cardElement) => {
+      card.delete();
+      popupWithConfirmation.open(cardId, cardElement);
     },
     handleLikeCard: (evt) => {
       if (!card.isLiked(card.likes, card.userId)) {
@@ -194,12 +197,6 @@ function openProfileEditPopup() {
   popupProfileEdit.open();
 }
 
-//Функция возвращения id пользователя
-function getId() {
-  const userId = userInfo.getUserId();
-  return userId;
-}
-
 /**
  * Загружаем данные пользователя с сервера
  * Загружаем на страницу карточки по умолчанию
@@ -210,7 +207,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     userInfo.renderUserInfo(res[0]);
     userInfo.renderUserAvatar(res[0]);
 
-    cardsSection.renderItems(res[1], getId());
+    cardsSection.renderItems(res[1], res[0]._id);
   })
   .catch((err) => {
     console.log(err);
