@@ -89,8 +89,6 @@ const popupCardSubmit = new PopupWithForm(".popup-newcard", {
 
 const popupWithImage = new PopupWithImage(".popup-image");
 
-
-
 const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
   submitForm: (data) => {
     api
@@ -111,6 +109,23 @@ const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
     formAvatarEditValidator.disableSubmitButton();
   },
 });
+
+const popupWithConfirmation = new PopupWithConfirmation(
+  ".popup-confirm-delete",
+  {
+    submitForm: (card, cardId) => {
+      api
+        .deleteCard(cardId)
+        .then(() => {
+          card.delete();
+          popupWithConfirmation.close();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  }
+);
 
 /**Создаем экземпляр валидации формы каждого попапа */
 const formProfileEditValidator = new FormValidator(
@@ -135,22 +150,6 @@ const userInfo = new UserInfo({
   avatar: ".profile__avatar",
 });
 
-const popupWithConfirmation = new PopupWithConfirmation(
-  ".popup-confirm-delete",
-  {
-    submitForm: (cardId, cardElement) => {
-      api
-        .deleteCard(cardId)
-        .then(() => {
-          console.log(cardElement);        
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  }
-);
-
 /**Функция создания новой карточки */
 function createNewCard(data, userId) {
   const card = new Card(data, userId, "#card", {
@@ -159,9 +158,8 @@ function createNewCard(data, userId) {
       const link = evt.target.src;
       popupWithImage.open(name, link);
     },
-    handleDeleteCard: (cardId, cardElement) => {
-      card.delete();
-      popupWithConfirmation.open(cardId, cardElement);
+    handleDeleteCard: (cardId) => {
+      popupWithConfirmation.open(card, cardId);
     },
     handleLikeCard: (evt) => {
       if (!card.isLiked(card.likes, card.userId)) {

@@ -52,8 +52,7 @@ export default class Card {
   }
 
   delete() {
-    // this._element.remove();
-    console.log("Привет!");
+    this._element.remove();
   }
 
   generateCard() {
