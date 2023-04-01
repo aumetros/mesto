@@ -111,20 +111,7 @@ const popupEditAvatar = new PopupWithForm(".popup-edit-avatar", {
 });
 
 const popupWithConfirmation = new PopupWithConfirmation(
-  ".popup-confirm-delete",
-  {
-    submitForm: (card, cardId) => {
-      api
-        .deleteCard(cardId)
-        .then(() => {
-          card.delete();
-          popupWithConfirmation.close();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  }
+  ".popup-confirm-delete"
 );
 
 /**Создаем экземпляр валидации формы каждого попапа */
@@ -159,7 +146,18 @@ function createNewCard(data, userId) {
       popupWithImage.open(name, link);
     },
     handleDeleteCard: (cardId) => {
-      popupWithConfirmation.open(card, cardId);
+      popupWithConfirmation.open();
+      popupWithConfirmation.setHandlerSubmit(() => {
+        api
+          .deleteCard(cardId)
+          .then(() => {
+            card.delete();
+            popupWithConfirmation.close();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     },
     handleLikeCard: (evt) => {
       if (!card.isLiked(card.likes, card.userId)) {
