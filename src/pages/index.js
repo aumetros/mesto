@@ -164,7 +164,7 @@ function createNewCard(data, userId) {
         api
           .putLike(card.cardId)
           .then((res) => {
-            card.switchLike(evt, res.likes);
+            card.toggleLike(evt, res.likes);
           })
           .catch((err) => {
             console.log(err);
@@ -173,7 +173,7 @@ function createNewCard(data, userId) {
         api
           .deleteLike(card.cardId)
           .then((res) => {
-            card.switchLike(evt, res.likes);
+            card.toggleLike(evt, res.likes);
           })
           .catch((err) => {
             console.log(err);

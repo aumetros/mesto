@@ -39,7 +39,7 @@ export default class Card {
     });
   }
 
-  switchLike(evt, likes) {
+  toggleLike(evt, likes) {
     this.likes = likes;
     this._counter.textContent = likes.length;
     evt.target.classList.toggle("element__like-button_checked");
